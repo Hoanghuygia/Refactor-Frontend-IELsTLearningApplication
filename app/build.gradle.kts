@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
@@ -56,4 +57,35 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Splash Api
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+    // Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.51")
+    kapt("com.google.dagger:hilt-android-compiler:2.51")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.8.4")
+
+    // Icon
+    implementation("androidx.compose.material:material-icons-extended:1.1.0")
+    // System UI Controller
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
+
+    // Edge to Edge controll
+    implementation("androidx.activity:activity-ktx:1.8.0-alpha03")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.core:core-ktx:1.9.0")
+
+    // Datastore
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.datastore:datastore-preferences-rxjava2:1.1.1")
+    implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.1")
+    implementation("androidx.datastore:datastore-preferences-core:1.1.1")
+}
+
+kapt {
+    correctErrorTypes = true
 }
