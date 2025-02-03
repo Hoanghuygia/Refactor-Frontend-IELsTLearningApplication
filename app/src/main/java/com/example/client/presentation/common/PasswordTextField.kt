@@ -1,4 +1,4 @@
-package com.example.client.presentation.pages.login.components
+package com.example.client.presentation.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -29,30 +29,42 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.client.presentation.pages.login.LoginUiState
-import com.example.client.presentation.pages.login.LoginViewModel
 
 @Composable
-fun PasswordTextField(uiState: LoginUiState, loginViewModel: LoginViewModel, passwordFocusRequester: FocusRequester) {
+fun PasswordTextField(
+    password: String,
+    placeHolderText: String,
+    onPasswordChange: (String) -> Unit,
+    passwordFocusRequester: FocusRequester,
+    nextTextField: FocusRequester ?= null
+) {
     var visible by remember { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
 
     OutlinedTextField(
-        value = uiState.passwordTextField,
-        onValueChange = { loginViewModel.updateTextField(it, "password") },
+        value = password,
+        onValueChange = onPasswordChange,
         placeholder = {
             Text(
-                text = "Enter your password",
+                text = placeHolderText,
                 color = Color.Gray.copy(alpha = 0.8f)
             )
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Password,
-            imeAction = ImeAction.Done
+            imeAction = if (placeHolderText === "Confirm your password") {
+                ImeAction.Next
+            } else {
+                ImeAction.Done
+            }
         ),
         keyboardActions = KeyboardActions(
             onDone = {
                 focusManager.clearFocus()
+            },
+            onNext = {
+                nextTextField?.requestFocus()
             }
         ),
         modifier = Modifier

@@ -39,6 +39,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.client.presentation.common.DividerWithText
+import com.example.client.presentation.common.PasswordTextField
 import com.example.client.presentation.pages.login.LoginUiState
 import com.example.client.presentation.pages.login.LoginViewModel
 import com.example.client.ui.theme.ClientTheme
@@ -77,16 +78,13 @@ fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
                     onValueChange = { loginViewModel.updateTextField(it, "email") },
                     placeholder = {
                         Text(
-                            text = "Enter your email",
-                            color = Color.Gray.copy(alpha = 0.8f)
+                            text = "Enter your email", color = Color.Gray.copy(alpha = 0.8f)
                         )
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            passwordFocusRequester.requestFocus()
-                        }
-                    ),
+                    keyboardActions = KeyboardActions(onNext = {
+                        passwordFocusRequester.requestFocus()
+                    }),
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(emailFocusRequester)
@@ -94,12 +92,18 @@ fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
                         .heightIn(min = 36.dp),
                     shape = RoundedCornerShape(8.dp),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color.Blue,
-                        unfocusedBorderColor = Color.Gray
+                        focusedBorderColor = Color.Blue, unfocusedBorderColor = Color.Gray
                     )
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                PasswordTextField(uiState, loginViewModel, passwordFocusRequester)
+                PasswordTextField(
+                    uiState.passwordTextField,
+                    placeHolderText = "Enter your password",
+                    onPasswordChange = { newPassword ->
+                        loginViewModel.updateTextField(newPassword, "password")
+                    },
+                    passwordFocusRequester
+                )
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -128,15 +132,12 @@ fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
                 }
                 Spacer(modifier = Modifier.height(24.dp))
                 Button(
-                    onClick = {},
-                    colors = ButtonDefaults.buttonColors(
+                    onClick = {}, colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFFFFD700),
                         contentColor = Color.Black,
                         disabledContainerColor = Color.Gray,
                         disabledContentColor = Color.DarkGray
-                    ),
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier.fillMaxWidth()
+                    ), shape = RoundedCornerShape(10.dp), modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Login")
                 }
@@ -157,7 +158,9 @@ fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
                         }
                     },
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.align(Alignment.End).padding(end = 12.dp)
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .padding(end = 12.dp)
                 )
 
             }
