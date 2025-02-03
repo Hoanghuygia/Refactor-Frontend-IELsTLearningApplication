@@ -17,6 +17,5 @@ fun NavGraph(startDestination: String) {
             LoginScreen(navController = navController, loginViewModel = viewModel)
         }
 
-
     }
 }
