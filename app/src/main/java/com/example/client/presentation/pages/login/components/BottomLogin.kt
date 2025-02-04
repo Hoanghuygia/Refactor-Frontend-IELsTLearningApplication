@@ -42,6 +42,7 @@ import com.example.client.presentation.common.DividerWithText
 import com.example.client.presentation.common.PasswordTextField
 import com.example.client.presentation.pages.login.LoginUiState
 import com.example.client.presentation.pages.login.LoginViewModel
+import com.example.client.presentation.pages.login.TextFieldType
 import com.example.client.ui.theme.ClientTheme
 
 @Composable
@@ -75,7 +76,7 @@ fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
                 Spacer(modifier = Modifier.height(12.dp))
                 OutlinedTextField(
                     value = uiState.emailTextField,
-                    onValueChange = { loginViewModel.updateTextField(it, "email") },
+                    onValueChange = { loginViewModel.updateTextField(it, TextFieldType.EMAIL.type) },
                     placeholder = {
                         Text(
                             text = "Enter your email", color = Color.Gray.copy(alpha = 0.8f)
@@ -100,7 +101,7 @@ fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
                     uiState.passwordTextField,
                     placeHolderText = "Enter your password",
                     onPasswordChange = { newPassword ->
-                        loginViewModel.updateTextField(newPassword, "password")
+                        loginViewModel.updateTextField(newPassword, TextFieldType.PASSWORD.type)
                     },
                     passwordFocusRequester
                 )
@@ -108,8 +109,8 @@ fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(
-                        checked = false,
-                        onCheckedChange = {},
+                        checked = uiState.rememberMe,
+                        onCheckedChange = { loginViewModel.toggleCheckbox() },
                         modifier = Modifier
                             .padding(start = 4.dp)
                             .size(20.dp),
@@ -168,7 +169,6 @@ fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
     }
 }
 
-//@Preview(showBackground = true, widthDp = 360, heightDp = 640)
 @Preview(showBackground = true, widthDp = 411, heightDp = 892) // For Samsung Galaxy A23 5G
 @Composable
 fun PreviewBottomLogin() {

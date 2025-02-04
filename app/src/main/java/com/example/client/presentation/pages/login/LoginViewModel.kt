@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(): ViewModel() {
+class LoginViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState
 
@@ -19,11 +19,28 @@ class LoginViewModel @Inject constructor(): ViewModel() {
     fun updateTextField(content: String, type: String) {
         _uiState.update { currentState ->
             when (type) {
-                "email" -> currentState.copy(emailTextField = content)
-                "password" -> currentState.copy(passwordTextField = content)
+                TextFieldType.EMAIL.type -> currentState.copy(emailTextField = content)
+                TextFieldType.PASSWORD.type -> currentState.copy(passwordTextField = content)
                 else -> currentState
             }
         }
     }
 
+//    fun toggleCheckbox(){
+//        _uiState.value = _uiState.value.copy(rememberMe = !re)
+//    }
+
+    fun toggleCheckbox() {
+        _uiState.update { currentState ->
+            currentState.copy(rememberMe = !currentState.rememberMe)
+        }
+    }
+
+}
+
+sealed class TextFieldType(
+    val type: String
+) {
+    object EMAIL : TextFieldType(type = "EMAIL")
+    object PASSWORD : TextFieldType(type = "PASSWORD")
 }

@@ -15,12 +15,21 @@ class SignUpViewModel @Inject constructor(): ViewModel(){
     fun updateTextField(text: String, type: String){
         _uiState.update { currentState ->
             when (type) {
-                "username" -> currentState.copy(username = text)
-                "email" -> currentState.copy(email = text)
-                "password" -> currentState.copy(password = text)
-                "confirmPassword" -> currentState.copy(confirmPassword = text)
+                TextFieldType.USERNAME.type -> currentState.copy(username = text)
+                TextFieldType.EMAIL.type -> currentState.copy(email = text)
+                TextFieldType.PASSWORD.type -> currentState.copy(password = text)
+                TextFieldType.CONFIRM_PASSWORD.type -> currentState.copy(confirmPassword = text)
                 else -> currentState
             }
         }
     }
+}
+
+sealed class TextFieldType(
+    val type: String
+) {
+    object USERNAME : TextFieldType(type = "USERNAME")
+    object EMAIL : TextFieldType(type = "EMAIL")
+    object PASSWORD : TextFieldType(type = "PASSWORD")
+    object CONFIRM_PASSWORD : TextFieldType(type = "CONFIRM_PASSWORD")
 }

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.example.client.presentation.common.PasswordTextField
 import com.example.client.presentation.pages.signup.SignUpUiState
 import com.example.client.presentation.pages.signup.SignUpViewModel
+import com.example.client.presentation.pages.signup.TextFieldType
 import com.example.client.ui.theme.ClientTheme
 
 @Composable
@@ -41,7 +42,7 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
     ) {
         OutlinedTextField(
             value = uiState.username,
-            onValueChange = { viewModel.updateTextField(it, "username") },
+            onValueChange = { viewModel.updateTextField(it, TextFieldType.USERNAME.type) },
             placeholder = {
                 Text(
                     text = "Enter Your Username",
@@ -67,8 +68,8 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
         )
 
         OutlinedTextField(
-            value = uiState.password,
-            onValueChange = { viewModel.updateTextField(it, "password") },
+            value = uiState.email,
+            onValueChange = { viewModel.updateTextField(it, TextFieldType.EMAIL.type) },
             placeholder = {
                 Text(
                     text = "Enter Your Email",
@@ -98,7 +99,7 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
             onPasswordChange = { newPassword ->
                 viewModel.updateTextField(
                     newPassword,
-                    "password"
+                    TextFieldType.PASSWORD.type
                 )
             },
             passwordRequester
@@ -110,7 +111,7 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
             onPasswordChange = { newPassword ->
                 viewModel.updateTextField(
                     newPassword,
-                    "confirmPassword"
+                    TextFieldType.CONFIRM_PASSWORD.type
                 )
             },
             confirmPasswordRequester
