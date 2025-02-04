@@ -24,12 +24,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.client.presentation.common.DividerWithText
 import com.example.client.presentation.pages.signup.components.TextFieldCluster
 import com.example.client.ui.theme.ClientTheme
 
 @Composable
-fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), modifier: Modifier) {
+fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), navController: NavController, modifier: Modifier) {
     val uiState = viewModel.uiState.collectAsState().value
 
     Box(
@@ -82,6 +84,6 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), modifier: Modifie
 @Composable
 fun PreviewSignUpScreen(){
     ClientTheme {
-        SignUpScreen(modifier = Modifier)
+        SignUpScreen(navController = rememberNavController(), modifier = Modifier)
     }
 }

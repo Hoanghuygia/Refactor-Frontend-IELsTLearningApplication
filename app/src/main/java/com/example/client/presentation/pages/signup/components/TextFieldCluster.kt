@@ -14,6 +14,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.client.presentation.common.PasswordTextField
+import com.example.client.presentation.common.TextFieldTypePassword
 import com.example.client.presentation.pages.signup.SignUpUiState
 import com.example.client.presentation.pages.signup.SignUpViewModel
 import com.example.client.presentation.pages.signup.TextFieldType
@@ -34,6 +36,9 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
     val passwordRequester = FocusRequester()
     val confirmPasswordRequester = FocusRequester()
 
+    LaunchedEffect(Unit) {
+        userNameRequester.requestFocus()
+    }
 
     Column(
         modifier = modifier
@@ -95,6 +100,7 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
         )
         PasswordTextField(
             password = uiState.password,
+            type = TextFieldTypePassword.PASSWORD.value,
             placeHolderText = "Enter your password",
             onPasswordChange = { newPassword ->
                 viewModel.updateTextField(
@@ -107,6 +113,7 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
         Spacer(modifier = modifier.height(12.dp))
         PasswordTextField(
             password = uiState.confirmPassword,
+            type = TextFieldTypePassword.CONFIRM_PASSWORD.value,
             placeHolderText = "Confirm your password",
             onPasswordChange = { newPassword ->
                 viewModel.updateTextField(

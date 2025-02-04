@@ -2,6 +2,7 @@ package com.example.client.presentation.pages.login.components
 
 import ButtonCustom
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,8 +15,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -32,21 +35,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.withAnnotation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.client.presentation.common.DividerWithText
 import com.example.client.presentation.common.PasswordTextField
+import com.example.client.presentation.common.TextFieldTypePassword
+import com.example.client.presentation.navgraph.Route
 import com.example.client.presentation.pages.login.LoginUiState
 import com.example.client.presentation.pages.login.LoginViewModel
 import com.example.client.presentation.pages.login.TextFieldType
 import com.example.client.ui.theme.ClientTheme
 
+@OptIn(ExperimentalTextApi::class)
 @Composable
-fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
+fun BottomLogin(uiState: LoginUiState, navController: NavController, loginViewModel: LoginViewModel) {
     val emailFocusRequester = FocusRequester()
     val passwordFocusRequester = FocusRequester()
 
@@ -68,15 +78,22 @@ fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
                     .fillMaxSize()
                     .padding(24.dp)
             ) {
-                Text(
-                    text = "Log In",
-                    color = Color(0xFF002147),
-                    style = MaterialTheme.typography.headlineLarge
-                )
+                SelectionContainer {
+                    Text(
+                        text = "Log In",
+                        color = Color(0xFF002147),
+                        style = MaterialTheme.typography.headlineLarge
+                    )
+                }
                 Spacer(modifier = Modifier.height(12.dp))
                 OutlinedTextField(
                     value = uiState.emailTextField,
-                    onValueChange = { loginViewModel.updateTextField(it, TextFieldType.EMAIL.type) },
+                    onValueChange = {
+                        loginViewModel.updateTextField(
+                            it,
+                            TextFieldType.EMAIL.type
+                        )
+                    },
                     placeholder = {
                         Text(
                             text = "Enter your email", color = Color.Gray.copy(alpha = 0.8f)
@@ -99,6 +116,7 @@ fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
                 Spacer(modifier = Modifier.height(12.dp))
                 PasswordTextField(
                     uiState.passwordTextField,
+                    type = TextFieldTypePassword.PASSWORD.value,
                     placeHolderText = "Enter your password",
                     onPasswordChange = { newPassword ->
                         loginViewModel.updateTextField(newPassword, TextFieldType.PASSWORD.type)
@@ -149,21 +167,36 @@ fun BottomLogin(uiState: LoginUiState, loginViewModel: LoginViewModel) {
                 Spacer(modifier = Modifier.height(12.dp))
                 ButtonCustom("Continue with Gmail", "gmail", Color(0xFFFFFFFF))
                 Spacer(modifier = Modifier.height(24.dp))
-                Text(
-                    text = buildAnnotatedString {
-                        withStyle(style = SpanStyle(color = Color.Black)) {
-                            append("Don't have an account? ")
-                        }
-                        withStyle(style = SpanStyle(color = Color(0xFF1877F2))) {
-                            append("Sign Up")
-                        }
-                    },
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(end = 12.dp)
-                )
-
+//                Text(
+//                    text = buildAnnotatedString {
+//                        withStyle(style = SpanStyle(color = Color.Black)) {
+//                            append("Don't have an account? ")
+//                        }
+//                        withStyle(style = SpanStyle(color = Color(0xFF1877F2))) {
+//                            append("Sign Up")
+//                        }
+//                    },
+//                    style = MaterialTheme.typography.bodyMedium,
+//                    modifier = Modifier
+//                        .align(Alignment.End)
+//                        .padding(end = 12.dp)
+//
+//                )
+                Row(
+                    modifier = Modifier.align(Alignment.End).padding(end = 12.dp)
+                ) {
+                    Text(
+                        text = "Don't have an account?",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = "Sign Up",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color(0xFF1877F2),
+                        modifier = Modifier.clickable {
+                            navController.navigate(Route.SignUpScreen.route)
+                        })
+                }
             }
         }
     }
@@ -178,7 +211,7 @@ fun PreviewBottomLogin() {
                 .fillMaxSize()
                 .background(Color(0xFF002147))
         ) {
-            BottomLogin(uiState = LoginUiState(), loginViewModel = LoginViewModel())
+            BottomLogin(uiState = LoginUiState(), navController = rememberNavController(), loginViewModel = LoginViewModel())
         }
     }
 }

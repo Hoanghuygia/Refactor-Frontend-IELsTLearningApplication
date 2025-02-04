@@ -28,11 +28,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.client.presentation.pages.login.LoginUiState
 
 @Composable
 fun PasswordTextField(
     password: String,
+    type: String,
     placeHolderText: String,
     onPasswordChange: (String) -> Unit,
     passwordFocusRequester: FocusRequester,
@@ -53,10 +53,10 @@ fun PasswordTextField(
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Password,
-            imeAction = if (placeHolderText === "Confirm your password") {
-                ImeAction.Next
-            } else {
+            imeAction = if (type == TextFieldTypePassword.PASSWORD.value) {
                 ImeAction.Done
+            } else {
+                ImeAction.Next
             }
         ),
         keyboardActions = KeyboardActions(
@@ -98,4 +98,9 @@ fun PasswordTextField(
             }
         }
     )
+}
+
+sealed class TextFieldTypePassword(var value: String){
+    object PASSWORD: TextFieldTypePassword(value = "PASSWORD")
+    object CONFIRM_PASSWORD: TextFieldTypePassword(value = "CONFIRM_PASSWORD")
 }
