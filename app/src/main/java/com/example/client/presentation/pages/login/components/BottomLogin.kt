@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -45,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.client.R
 import com.example.client.presentation.common.DividerWithText
 import com.example.client.presentation.common.PasswordTextField
 import com.example.client.presentation.common.TextFieldTypePassword
@@ -80,7 +82,7 @@ fun BottomLogin(uiState: LoginUiState, navController: NavController, loginViewMo
             ) {
                 SelectionContainer {
                     Text(
-                        text = "Log In",
+                        text = stringResource(R.string.log_in),
                         color = Color(0xFF002147),
                         style = MaterialTheme.typography.headlineLarge
                     )
@@ -96,7 +98,7 @@ fun BottomLogin(uiState: LoginUiState, navController: NavController, loginViewMo
                     },
                     placeholder = {
                         Text(
-                            text = "Enter your email", color = Color.Gray.copy(alpha = 0.8f)
+                            text = stringResource(R.string.enter_your_email), color = Color.Gray.copy(alpha = 0.8f)
                         )
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
@@ -117,7 +119,7 @@ fun BottomLogin(uiState: LoginUiState, navController: NavController, loginViewMo
                 PasswordTextField(
                     uiState.passwordTextField,
                     type = TextFieldTypePassword.PASSWORD.value,
-                    placeHolderText = "Enter your password",
+                    placeHolderText = stringResource(R.string.enter_your_password),
                     onPasswordChange = { newPassword ->
                         loginViewModel.updateTextField(newPassword, TextFieldType.PASSWORD.type)
                     },
@@ -137,13 +139,13 @@ fun BottomLogin(uiState: LoginUiState, navController: NavController, loginViewMo
                         )
                     )
                     Text(
-                        text = "Remember me",
+                        text = stringResource(R.string.remember_me),
                         style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier.padding(horizontal = 12.dp)
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        text = "Forgot password?",
+                        text = stringResource(R.string.forgot_password),
                         color = Color.Red,
                         style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier.padding(horizontal = 6.dp)
@@ -161,7 +163,7 @@ fun BottomLogin(uiState: LoginUiState, navController: NavController, loginViewMo
                     Text(text = "Login")
                 }
                 Spacer(modifier = Modifier.height(36.dp))
-                DividerWithText(text = "Or With", lineColor = Color.Gray)
+                DividerWithText(text = stringResource(R.string.or_with), lineColor = Color.Gray)
                 Spacer(modifier = Modifier.height(28.dp))
                 ButtonCustom("Continue with Facebook", "facebook", Color(0xFF1877F2))
                 Spacer(modifier = Modifier.height(12.dp))
@@ -183,14 +185,16 @@ fun BottomLogin(uiState: LoginUiState, navController: NavController, loginViewMo
 //
 //                )
                 Row(
-                    modifier = Modifier.align(Alignment.End).padding(end = 12.dp)
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .padding(end = 12.dp)
                 ) {
                     Text(
-                        text = "Don't have an account?",
+                        text = stringResource(R.string.don_t_have_an_account),
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
-                        text = "Sign Up",
+                        text = stringResource(R.string.sign_up),
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color(0xFF1877F2),
                         modifier = Modifier.clickable {
