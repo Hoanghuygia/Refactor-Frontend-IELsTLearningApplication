@@ -1,6 +1,7 @@
 package com.example.client.presentation.pages.signup
 
 import androidx.lifecycle.ViewModel
+import com.example.client.utils.TypeTextFieldX
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,21 +16,12 @@ class SignUpViewModel @Inject constructor(): ViewModel(){
     fun updateTextField(text: String, type: String){
         _uiState.update { currentState ->
             when (type) {
-                TextFieldType.USERNAME.type -> currentState.copy(username = text)
-                TextFieldType.EMAIL.type -> currentState.copy(email = text)
-                TextFieldType.PASSWORD.type -> currentState.copy(password = text)
-                TextFieldType.CONFIRM_PASSWORD.type -> currentState.copy(confirmPassword = text)
+                TypeTextFieldX.USERNAME.type -> currentState.copy(username = text)
+                TypeTextFieldX.EMAIL.type -> currentState.copy(email = text)
+                TypeTextFieldX.PASSWORD.type -> currentState.copy(password = text)
+                TypeTextFieldX.LAST_PASSWORD.type -> currentState.copy(confirmPassword = text)
                 else -> currentState
             }
         }
     }
-}
-
-sealed class TextFieldType(
-    val type: String
-) {
-    object USERNAME : TextFieldType(type = "USERNAME")
-    object EMAIL : TextFieldType(type = "EMAIL")
-    object PASSWORD : TextFieldType(type = "PASSWORD")
-    object CONFIRM_PASSWORD : TextFieldType(type = "CONFIRM_PASSWORD")
 }

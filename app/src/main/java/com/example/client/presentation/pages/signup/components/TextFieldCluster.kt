@@ -23,11 +23,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.client.presentation.common.PasswordTextField
-import com.example.client.presentation.common.TextFieldTypePassword
 import com.example.client.presentation.pages.signup.SignUpUiState
 import com.example.client.presentation.pages.signup.SignUpViewModel
-import com.example.client.presentation.pages.signup.TextFieldType
 import com.example.client.ui.theme.ClientTheme
+import com.example.client.utils.TypeTextFieldX
 
 @Composable
 fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifier: Modifier) {
@@ -47,7 +46,7 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
     ) {
         OutlinedTextField(
             value = uiState.username,
-            onValueChange = { viewModel.updateTextField(it, TextFieldType.USERNAME.type) },
+            onValueChange = { viewModel.updateTextField(it, TypeTextFieldX.USERNAME.type) },
             placeholder = {
                 Text(
                     text = "Enter Your Username",
@@ -74,7 +73,7 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
 
         OutlinedTextField(
             value = uiState.email,
-            onValueChange = { viewModel.updateTextField(it, TextFieldType.EMAIL.type) },
+            onValueChange = { viewModel.updateTextField(it, TypeTextFieldX.EMAIL.type) },
             placeholder = {
                 Text(
                     text = "Enter Your Email",
@@ -100,25 +99,26 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
         )
         PasswordTextField(
             password = uiState.password,
-            type = TextFieldTypePassword.PASSWORD.value,
+            type = TypeTextFieldX.PASSWORD.type,
             placeHolderText = "Enter your password",
             onPasswordChange = { newPassword ->
                 viewModel.updateTextField(
                     newPassword,
-                    TextFieldType.PASSWORD.type
+                    TypeTextFieldX.PASSWORD.type
                 )
             },
-            passwordRequester
+            passwordFocusRequester = passwordRequester,
+            nextTextField = confirmPasswordRequester
         )
         Spacer(modifier = modifier.height(12.dp))
         PasswordTextField(
             password = uiState.confirmPassword,
-            type = TextFieldTypePassword.CONFIRM_PASSWORD.value,
+            type = TypeTextFieldX.LAST_PASSWORD.type,
             placeHolderText = "Confirm your password",
             onPasswordChange = { newPassword ->
                 viewModel.updateTextField(
                     newPassword,
-                    TextFieldType.CONFIRM_PASSWORD.type
+                    TypeTextFieldX.LAST_PASSWORD.type
                 )
             },
             confirmPasswordRequester

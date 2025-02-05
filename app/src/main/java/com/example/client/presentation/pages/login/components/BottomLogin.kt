@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -37,11 +36,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.withAnnotation
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -49,16 +44,19 @@ import androidx.navigation.compose.rememberNavController
 import com.example.client.R
 import com.example.client.presentation.common.DividerWithText
 import com.example.client.presentation.common.PasswordTextField
-import com.example.client.presentation.common.TextFieldTypePassword
 import com.example.client.presentation.navgraph.Route
 import com.example.client.presentation.pages.login.LoginUiState
 import com.example.client.presentation.pages.login.LoginViewModel
-import com.example.client.presentation.pages.login.TextFieldType
 import com.example.client.ui.theme.ClientTheme
+import com.example.client.utils.TypeTextFieldX
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
-fun BottomLogin(uiState: LoginUiState, navController: NavController, loginViewModel: LoginViewModel) {
+fun BottomLogin(
+    uiState: LoginUiState,
+    navController: NavController,
+    loginViewModel: LoginViewModel
+) {
     val emailFocusRequester = FocusRequester()
     val passwordFocusRequester = FocusRequester()
 
@@ -93,12 +91,13 @@ fun BottomLogin(uiState: LoginUiState, navController: NavController, loginViewMo
                     onValueChange = {
                         loginViewModel.updateTextField(
                             it,
-                            TextFieldType.EMAIL.type
+                            TypeTextFieldX.EMAIL.type
                         )
                     },
                     placeholder = {
                         Text(
-                            text = stringResource(R.string.enter_your_email), color = Color.Gray.copy(alpha = 0.8f)
+                            text = stringResource(R.string.enter_your_email),
+                            color = Color.Gray.copy(alpha = 0.8f)
                         )
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
@@ -118,10 +117,13 @@ fun BottomLogin(uiState: LoginUiState, navController: NavController, loginViewMo
                 Spacer(modifier = Modifier.height(12.dp))
                 PasswordTextField(
                     uiState.passwordTextField,
-                    type = TextFieldTypePassword.PASSWORD.value,
+                    type = TypeTextFieldX.LAST_PASSWORD.type,
                     placeHolderText = stringResource(R.string.enter_your_password),
                     onPasswordChange = { newPassword ->
-                        loginViewModel.updateTextField(newPassword, TextFieldType.PASSWORD.type)
+                        loginViewModel.updateTextField(
+                            newPassword,
+                            TypeTextFieldX.LAST_PASSWORD.type
+                        )
                     },
                     passwordFocusRequester
                 )
@@ -215,7 +217,11 @@ fun PreviewBottomLogin() {
                 .fillMaxSize()
                 .background(Color(0xFF002147))
         ) {
-            BottomLogin(uiState = LoginUiState(), navController = rememberNavController(), loginViewModel = LoginViewModel())
+            BottomLogin(
+                uiState = LoginUiState(),
+                navController = rememberNavController(),
+                loginViewModel = LoginViewModel()
+            )
         }
     }
 }
