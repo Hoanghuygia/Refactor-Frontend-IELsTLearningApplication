@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
@@ -48,7 +49,10 @@ import com.example.client.presentation.navgraph.Route
 import com.example.client.presentation.pages.login.LoginUiState
 import com.example.client.presentation.pages.login.LoginViewModel
 import com.example.client.ui.theme.ClientTheme
+import com.example.client.utils.SupabaseClient.client
 import com.example.client.utils.TypeTextFieldX
+import io.github.jan.supabase.compose.auth.composable.rememberLoginWithGoogle
+import io.github.jan.supabase.compose.auth.composeAuth
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
@@ -57,6 +61,16 @@ fun BottomLogin(
     navController: NavController,
     loginViewModel: LoginViewModel
 ) {
+    val context = LocalContext.current
+    val action = client.composeAuth.rememberLoginWithGoogle(
+        onResult = { result -> loginViewModel.checkGoogleLoginStatus(context, result) },
+        fallback = {}
+    )
+
+    LaunchedEffect(Unit) {
+        loginViewModel.isUserLoggedIn(context)
+    }
+
     val emailFocusRequester = FocusRequester()
     val passwordFocusRequester = FocusRequester()
 
@@ -167,9 +181,17 @@ fun BottomLogin(
                 Spacer(modifier = Modifier.height(36.dp))
                 DividerWithText(text = stringResource(R.string.or_with), lineColor = Color.Gray)
                 Spacer(modifier = Modifier.height(28.dp))
-                ButtonCustom("Continue with Facebook", "facebook", Color(0xFF1877F2))
+                ButtonCustom(
+                    textContent = "Continue with Facebook",
+                    type = "facebook",
+                    colorContainer = Color(0xFF1877F2),
+                    onClick = { action.startFlow() })
                 Spacer(modifier = Modifier.height(12.dp))
-                ButtonCustom("Continue with Gmail", "gmail", Color(0xFFFFFFFF))
+                ButtonCustom(
+                    textContent = "Continue with Gmail",
+                    type = "gmail",
+                    colorContainer = Color(0xFFFFFFFF),
+                    onClick = { action.startFlow() })
                 Spacer(modifier = Modifier.height(24.dp))
 //                Text(
 //                    text = buildAnnotatedString {
@@ -208,20 +230,22 @@ fun BottomLogin(
     }
 }
 
-@Preview(showBackground = true, widthDp = 411, heightDp = 892) // For Samsung Galaxy A23 5G
-@Composable
-fun PreviewBottomLogin() {
-    ClientTheme {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFF002147))
-        ) {
-            BottomLogin(
-                uiState = LoginUiState(),
-                navController = rememberNavController(),
-                loginViewModel = LoginViewModel()
-            )
-        }
-    }
-}
+//@Preview(showBackground = true, widthDp = 411, heightDp = 892) // For Samsung Galaxy A23 5G
+//@Composable
+//fun PreviewBottomLogin() {
+//    ClientTheme {
+//        Box(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(Color(0xFF002147))
+//        ) {
+//            BottomLogin(
+//                uiState = LoginUiState(),
+//                navController = rememberNavController(),
+//                loginViewModel = LoginViewModel(
+//                    appUsecase = TODO()
+//                ),
+//            )
+//        }
+//    }
+//}

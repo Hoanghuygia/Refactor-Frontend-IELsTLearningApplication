@@ -33,7 +33,11 @@ import com.example.client.presentation.pages.signup.components.TextFieldCluster
 import com.example.client.ui.theme.ClientTheme
 
 @Composable
-fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), navController: NavController, modifier: Modifier) {
+fun SignUpScreen(
+    viewModel: SignUpViewModel = hiltViewModel(),
+    navController: NavController,
+    modifier: Modifier
+) {
     val uiState = viewModel.uiState.collectAsState().value
 
     Box(
@@ -74,9 +78,17 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), navController: Na
                 Spacer(modifier = modifier.height(36.dp))
                 DividerWithText(text = stringResource(R.string.or_with), lineColor = Color.Gray)
                 Spacer(modifier = Modifier.height(28.dp))
-                ButtonCustom(stringResource(R.string.continue_with_facebook), "facebook", Color(0xFF1877F2))
+                ButtonCustom(
+                    textContent = stringResource(R.string.continue_with_facebook),
+                    type = "facebook",
+                    colorContainer = Color(0xFF1877F2),
+                    onClick = {})
                 Spacer(modifier = Modifier.height(12.dp))
-                ButtonCustom(stringResource(R.string.continue_with_gmail), "gmail", Color(0xFFFFFFFF))
+                ButtonCustom(
+                    textContent = stringResource(R.string.continue_with_gmail),
+                    type = "gmail",
+                    colorContainer = Color(0xFFFFFFFF),
+                    onClick = {})
             }
         }
     }
@@ -84,7 +96,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), navController: Na
 
 @Preview(showBackground = true, widthDp = 411, heightDp = 892)
 @Composable
-fun PreviewSignUpScreen(){
+fun PreviewSignUpScreen() {
     ClientTheme {
         SignUpScreen(navController = rememberNavController(), modifier = Modifier)
     }
