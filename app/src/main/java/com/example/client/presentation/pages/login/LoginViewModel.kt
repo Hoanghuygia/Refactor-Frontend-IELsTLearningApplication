@@ -9,6 +9,7 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.ViewModel
 import com.example.client.BuildConfig
+import com.example.client.domain.model.User
 import com.example.client.domain.usecase.localapp.AppUsecase
 import com.example.client.utils.TypeTextFieldX
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -78,6 +79,9 @@ class LoginViewModel @Inject constructor(private val appUsecase: AppUsecase) : V
                 val name = payload.getString("name")
                 val givenName = payload.getString("given_name")
                 val familyName = payload.getString("family_name")
+
+                val user = User(email = email, fullName = name, givenName = givenName, familyName = familyName)
+                appUsecase.saveUser(user)
 
                 Log.i("payload", "Google ID Token: $payload")
                 Log.i("name", "Google ID Token: $name")

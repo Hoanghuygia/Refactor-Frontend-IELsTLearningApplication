@@ -104,7 +104,8 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:compose-auth:$supabaseVersion")
     implementation("io.github.jan-tennert.supabase:gotrue-kt:$supabaseVersion")
 
-
+    // Serialization-JSON
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 }
 
 kapt {
