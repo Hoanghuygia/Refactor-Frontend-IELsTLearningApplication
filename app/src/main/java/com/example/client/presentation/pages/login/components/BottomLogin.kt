@@ -1,7 +1,6 @@
 package com.example.client.presentation.pages.login.components
 
 import ButtonCustom
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +28,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -38,21 +38,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.client.R
 import com.example.client.presentation.common.DividerWithText
 import com.example.client.presentation.common.PasswordTextField
 import com.example.client.presentation.navgraph.Route
 import com.example.client.presentation.pages.login.LoginUiState
 import com.example.client.presentation.pages.login.LoginViewModel
-import com.example.client.ui.theme.ClientTheme
-import com.example.client.utils.SupabaseClient.client
 import com.example.client.utils.TypeTextFieldX
-import io.github.jan.supabase.compose.auth.composable.rememberLoginWithGoogle
-import io.github.jan.supabase.compose.auth.composeAuth
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
@@ -62,14 +56,7 @@ fun BottomLogin(
     loginViewModel: LoginViewModel
 ) {
     val context = LocalContext.current
-    val action = client.composeAuth.rememberLoginWithGoogle(
-        onResult = { result -> loginViewModel.checkGoogleLoginStatus(context, result) },
-        fallback = {}
-    )
-
-    LaunchedEffect(Unit) {
-        loginViewModel.isUserLoggedIn(context)
-    }
+    val coroutineScope = rememberCoroutineScope()
 
     val emailFocusRequester = FocusRequester()
     val passwordFocusRequester = FocusRequester()
@@ -185,29 +172,19 @@ fun BottomLogin(
                     textContent = "Continue with Facebook",
                     type = "facebook",
                     colorContainer = Color(0xFF1877F2),
-                    onClick = { action.startFlow() })
+                    onClick = { })
                 Spacer(modifier = Modifier.height(12.dp))
                 ButtonCustom(
                     textContent = "Continue with Gmail",
                     type = "gmail",
                     colorContainer = Color(0xFFFFFFFF),
-                    onClick = { action.startFlow() })
+                    onClick = {
+                        loginViewModel.loginWithGoogle(
+                            context = context,
+                            scope = coroutineScope
+                        )
+                    })
                 Spacer(modifier = Modifier.height(24.dp))
-//                Text(
-//                    text = buildAnnotatedString {
-//                        withStyle(style = SpanStyle(color = Color.Black)) {
-//                            append("Don't have an account? ")
-//                        }
-//                        withStyle(style = SpanStyle(color = Color(0xFF1877F2))) {
-//                            append("Sign Up")
-//                        }
-//                    },
-//                    style = MaterialTheme.typography.bodyMedium,
-//                    modifier = Modifier
-//                        .align(Alignment.End)
-//                        .padding(end = 12.dp)
-//
-//                )
                 Row(
                     modifier = Modifier
                         .align(Alignment.End)

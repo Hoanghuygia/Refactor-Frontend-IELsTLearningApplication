@@ -7,13 +7,13 @@ val localProperties = Properties().apply {
     }
 }
 
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
 }
 
 android {
@@ -57,7 +57,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -83,31 +82,29 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.8.4")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 
     // Icon
-    implementation("androidx.compose.material:material-icons-extended:1.1.0")
+    implementation("androidx.compose.material:material-icons-extended:1.6.1")
+
     // System UI Controller
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
 
-    // Edge to Edge controll
-    implementation("androidx.activity:activity-ktx:1.8.0-alpha03")
+    // Edge to Edge control
+    implementation("androidx.activity:activity-ktx:1.8.2")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
 
     // Datastore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("androidx.datastore:datastore-preferences-rxjava2:1.1.1")
-    implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.1")
     implementation("androidx.datastore:datastore-preferences-core:1.1.1")
 
     // Supabase
-    implementation("io.github.jan-tennert.supabase:gotrue-kt:1.3.2")
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    val supabaseVersion = "2.6.1"
+    implementation("io.github.jan-tennert.supabase:compose-auth:$supabaseVersion")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:$supabaseVersion")
 
-    implementation("io.github.jan-tennert.supabase:compose-auth:1.3.2")
-    implementation("io.github.jan-tennert.supabase:compose-auth-ui:1.3.2")
-    implementation("io.ktor:ktor-client-cio:2.3.4")
+
 }
 
 kapt {
