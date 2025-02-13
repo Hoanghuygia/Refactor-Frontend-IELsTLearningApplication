@@ -25,7 +25,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = h
             .background(Color(0xFF002147))
     ) {
         HeaderWelcome()
-        BottomLogin(uiState = uiState, loginViewModel = loginViewModel)
+        BottomLogin(uiState = uiState, navController = navController, loginViewModel = loginViewModel)
     }
 }
 

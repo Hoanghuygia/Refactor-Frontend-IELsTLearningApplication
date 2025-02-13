@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Client</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login">Login</string>
+    <string name="or_with">Or With</string>
+    <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="continue_with_gmail">Continue with Gmail</string>
+    <string name="log_in">Log In</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
 </resources>

@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ClientTheme {
-                Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)){
+                Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
                     NavGraph(startDestination = Route.LoginScreen.route)
                 }
             }

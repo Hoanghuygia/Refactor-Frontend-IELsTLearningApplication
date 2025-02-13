@@ -20,6 +20,7 @@ fun ButtonCustom(
     textContent: String,
     type: String,
     colorContainer: Color,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val (logoResId, textColor) = when (type.lowercase()) {
@@ -29,7 +30,7 @@ fun ButtonCustom(
     }
 
     Button(
-        onClick = {},
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = colorContainer,
             contentColor = textColor
@@ -67,8 +68,8 @@ fun PreviewCustomButton() {
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            ButtonCustom("Continue with Facebook", "facebook", Color(0xFF1877F2))
-            ButtonCustom("Continue with Google", "gmail", Color.White)
+            ButtonCustom("Continue with Facebook", "facebook", Color(0xFF1877F2), onClick = {})
+            ButtonCustom("Continue with Google", "gmail", Color.White, onClick = {})
         }
     }
 }

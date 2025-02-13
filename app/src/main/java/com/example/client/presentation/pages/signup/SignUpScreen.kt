@@ -21,15 +21,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.client.R
 import com.example.client.presentation.common.DividerWithText
 import com.example.client.presentation.pages.signup.components.TextFieldCluster
 import com.example.client.ui.theme.ClientTheme
 
 @Composable
-fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), modifier: Modifier) {
+fun SignUpScreen(
+    viewModel: SignUpViewModel = hiltViewModel(),
+    navController: NavController,
+    modifier: Modifier
+) {
     val uiState = viewModel.uiState.collectAsState().value
 
     Box(
@@ -50,7 +58,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), modifier: Modifie
                     .padding(24.dp)
             ) {
                 Text(
-                    text = "Sign Up",
+                    text = stringResource(R.string.sign_up),
                     color = Color(0xFF002147),
                     style = MaterialTheme.typography.headlineLarge,
                     modifier = modifier.padding(bottom = 24.dp)
@@ -65,14 +73,22 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), modifier: Modifie
                         disabledContentColor = Color.DarkGray
                     ), shape = RoundedCornerShape(10.dp), modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = "Login")
+                    Text(text = stringResource(R.string.login))
                 }
                 Spacer(modifier = modifier.height(36.dp))
-                DividerWithText(text = "Or With", lineColor = Color.Gray)
+                DividerWithText(text = stringResource(R.string.or_with), lineColor = Color.Gray)
                 Spacer(modifier = Modifier.height(28.dp))
-                ButtonCustom("Continue with Facebook", "facebook", Color(0xFF1877F2))
+                ButtonCustom(
+                    textContent = stringResource(R.string.continue_with_facebook),
+                    type = "facebook",
+                    colorContainer = Color(0xFF1877F2),
+                    onClick = {})
                 Spacer(modifier = Modifier.height(12.dp))
-                ButtonCustom("Continue with Gmail", "gmail", Color(0xFFFFFFFF))
+                ButtonCustom(
+                    textContent = stringResource(R.string.continue_with_gmail),
+                    type = "gmail",
+                    colorContainer = Color(0xFFFFFFFF),
+                    onClick = {})
             }
         }
     }
@@ -80,8 +96,8 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel(), modifier: Modifie
 
 @Preview(showBackground = true, widthDp = 411, heightDp = 892)
 @Composable
-fun PreviewSignUpScreen(){
+fun PreviewSignUpScreen() {
     ClientTheme {
-        SignUpScreen(modifier = Modifier)
+        SignUpScreen(navController = rememberNavController(), modifier = Modifier)
     }
 }

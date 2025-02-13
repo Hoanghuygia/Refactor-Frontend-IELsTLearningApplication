@@ -14,6 +14,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -25,6 +26,7 @@ import com.example.client.presentation.common.PasswordTextField
 import com.example.client.presentation.pages.signup.SignUpUiState
 import com.example.client.presentation.pages.signup.SignUpViewModel
 import com.example.client.ui.theme.ClientTheme
+import com.example.client.utils.TypeTextFieldX
 
 @Composable
 fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifier: Modifier) {
@@ -33,6 +35,9 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
     val passwordRequester = FocusRequester()
     val confirmPasswordRequester = FocusRequester()
 
+    LaunchedEffect(Unit) {
+        userNameRequester.requestFocus()
+    }
 
     Column(
         modifier = modifier
@@ -41,7 +46,7 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
     ) {
         OutlinedTextField(
             value = uiState.username,
-            onValueChange = { viewModel.updateTextField(it, "username") },
+            onValueChange = { viewModel.updateTextField(it, TypeTextFieldX.USERNAME.type) },
             placeholder = {
                 Text(
                     text = "Enter Your Username",
@@ -67,8 +72,8 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
         )
 
         OutlinedTextField(
-            value = uiState.password,
-            onValueChange = { viewModel.updateTextField(it, "password") },
+            value = uiState.email,
+            onValueChange = { viewModel.updateTextField(it, TypeTextFieldX.EMAIL.type) },
             placeholder = {
                 Text(
                     text = "Enter Your Email",
@@ -94,23 +99,26 @@ fun TextFieldCluster(uiState: SignUpUiState, viewModel: SignUpViewModel, modifie
         )
         PasswordTextField(
             password = uiState.password,
+            type = TypeTextFieldX.PASSWORD.type,
             placeHolderText = "Enter your password",
             onPasswordChange = { newPassword ->
                 viewModel.updateTextField(
                     newPassword,
-                    "password"
+                    TypeTextFieldX.PASSWORD.type
                 )
             },
-            passwordRequester
+            passwordFocusRequester = passwordRequester,
+            nextTextField = confirmPasswordRequester
         )
         Spacer(modifier = modifier.height(12.dp))
         PasswordTextField(
             password = uiState.confirmPassword,
+            type = TypeTextFieldX.LAST_PASSWORD.type,
             placeHolderText = "Confirm your password",
             onPasswordChange = { newPassword ->
                 viewModel.updateTextField(
                     newPassword,
-                    "confirmPassword"
+                    TypeTextFieldX.LAST_PASSWORD.type
                 )
             },
             confirmPasswordRequester
