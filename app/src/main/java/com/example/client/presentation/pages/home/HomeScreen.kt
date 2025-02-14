@@ -23,9 +23,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.client.R
 import com.example.client.domain.model.User
+import com.example.client.presentation.navgraph.Route
 import com.example.client.presentation.pages.home.components.ContentHolder
 import com.example.client.presentation.pages.home.components.ProfileHolder
 import com.example.client.presentation.pages.home.data.HomeScreenData
+import com.example.client.presentation.pages.learning.LearningScreen
+import com.example.client.presentation.pages.notification.NotificationScreen
+import com.example.client.presentation.pages.profile.ProfileScreen
+import com.example.client.presentation.pages.settings.SettingsScreen
 
 @Composable
 fun HomeScreen(navController: NavController, modifier: Modifier) {
@@ -38,7 +43,9 @@ fun HomeScreen(navController: NavController, modifier: Modifier) {
                 onNavItemClick = { index -> bottomNavState = index })
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
+        Box(modifier = Modifier
+            .padding(innerPadding)
+            .fillMaxSize()) {
             when (bottomNavState) {
                 0 -> {
                     Column(
@@ -55,7 +62,9 @@ fun HomeScreen(navController: NavController, modifier: Modifier) {
                             givenName = "Q",
                             familyName = "N",
                             avatar = R.drawable.avatar
-                        ), modifier = Modifier.weight(1f), onEvent = {})
+                        ),
+                            modifier = Modifier.weight(1f),
+                            onEvent = { navController.navigate(Route.ProfileScreen.route) })
 
                         val homePageItemLength = HomeScreenData.homePageItem.size
                         if (homePageItemLength % 2 == 0) {
@@ -72,6 +81,18 @@ fun HomeScreen(navController: NavController, modifier: Modifier) {
                         }
                     }
                 }
+                1 -> {
+                    LearningScreen()
+                }
+                2 -> {
+                    NotificationScreen()
+                }
+                3 -> {
+                    ProfileScreen()
+                }
+                4 -> {
+                    SettingsScreen()
+                }
             }
         }
     }
@@ -79,7 +100,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier) {
 
 @Preview(showBackground = true, widthDp = 411, heightDp = 892)
 @Composable
-fun PreviewHomeScreen(){
+fun PreviewHomeScreen() {
     ClientTheme {
         val navController = rememberNavController()
         HomeScreen(navController = navController, modifier = Modifier)

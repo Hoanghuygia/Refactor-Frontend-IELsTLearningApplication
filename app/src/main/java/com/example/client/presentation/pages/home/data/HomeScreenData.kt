@@ -37,7 +37,7 @@ object HomeScreenData {
             title = "My words",
             iconFilled = Icons.Filled.Book,
             iconOutlined = Icons.Outlined.Book,
-            Route.HomeScreen.route,
+            Route.LearningScreen.route,
             hasBadge = false,
             badgeNum = 0
         ),
@@ -45,7 +45,7 @@ object HomeScreenData {
             title = "Notify",
             iconFilled = Icons.Filled.Notifications,
             iconOutlined = Icons.Outlined.Notifications,
-            Route.HomeScreen.route,
+            Route.NotificationScreen.route,
             hasBadge = true,
             badgeNum = 10
         ),
@@ -53,7 +53,7 @@ object HomeScreenData {
             title = "Account",
             iconFilled = Icons.Filled.Person,
             iconOutlined = Icons.Outlined.Person,
-            Route.HomeScreen.route,
+            Route.ProfileScreen.route,
             hasBadge = false,
             badgeNum = 0
         ),
@@ -61,7 +61,7 @@ object HomeScreenData {
             title = "Setting",
             iconFilled = Icons.Filled.Settings,
             iconOutlined = Icons.Outlined.Settings,
-            Route.HomeScreen.route,
+            Route.SettingsScreen.route,
             hasBadge = false,
             badgeNum = 0
         )
@@ -95,13 +95,13 @@ object HomeScreenData {
             title = "My words",
             iconFocus = Icons.Filled.Book,
             iconNormal = Icons.Outlined.Book,
-            route = "onLibraryScreen"
+            route = "onLearningScreen"
         ),
         HomeScreenItem(
             title = "Chat with AI",
             iconFocus = Icons.Filled.Forum,
             iconNormal = Icons.Outlined.Forum,
-            route = "onAIScreen"
+            route = "onAiChatScreen"
         ),
     )
 }
