@@ -8,9 +8,11 @@ import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import com.example.client.BuildConfig
 import com.example.client.domain.model.User
 import com.example.client.domain.usecase.localapp.AppUsecase
+import com.example.client.presentation.navgraph.Route
 import com.example.client.utils.TypeTextFieldX
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -25,6 +27,7 @@ import org.json.JSONObject
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
+import com.example.client.R
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val appUsecase: AppUsecase) : ViewModel() {
@@ -47,7 +50,7 @@ class LoginViewModel @Inject constructor(private val appUsecase: AppUsecase) : V
         }
     }
 
-    fun loginWithGoogle(context: Context, scope: CoroutineScope){
+    fun loginWithGoogle(context: Context, scope: CoroutineScope, navController: NavController) {
         val credentialManager = CredentialManager.create(context)
 
         val rawNonce = UUID.randomUUID().toString()
@@ -73,15 +76,34 @@ class LoginViewModel @Inject constructor(private val appUsecase: AppUsecase) : V
                     GoogleIdTokenCredential.createFrom(result.credential.data)
 
                 val googleIdToken = googleIdTokenCredential.idToken
+                /*
+                Step need to make at here:
+                1. Check if user already in database or not
+                    If yes: load data
+                    If no: crete user
+                2. save user into local data
+                3. Navigate to main screen
+                 */
 
-                val payload = JSONObject(String(Base64.decode(googleIdToken.split(".")[1], Base64.URL_SAFE)))
+                // #Step 2
+                val payload =
+                    JSONObject(String(Base64.decode(googleIdToken.split(".")[1], Base64.URL_SAFE)))
                 val email = payload.getString("email")
                 val name = payload.getString("name")
                 val givenName = payload.getString("given_name")
                 val familyName = payload.getString("family_name")
 
-                val user = User(email = email, fullName = name, givenName = givenName, familyName = familyName)
+                val user = User(
+                    email = email,
+                    fullName = name,
+                    givenName = givenName,
+                    familyName = familyName,
+                    avatar = R.drawable.avatar
+                )
                 appUsecase.saveUser(user)
+
+                // Step 3
+                navController.navigate(Route.HomeScreen.route)
 
                 Log.i("payload", "Google ID Token: $payload")
                 Log.i("name", "Google ID Token: $name")
@@ -95,10 +117,10 @@ class LoginViewModel @Inject constructor(private val appUsecase: AppUsecase) : V
             } catch (e: Exception) {
                 Log.e("GoogleSignIn", "Error: ${e.message}", e)
                 Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-            } catch (e: GetCredentialException){
+            } catch (e: GetCredentialException) {
                 Log.e("GoogleSignIn", "Error: ${e.message}", e)
                 Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-            } catch (e: GoogleIdTokenParsingException){
+            } catch (e: GoogleIdTokenParsingException) {
                 Log.e("GoogleSignIn", "Error: ${e.message}", e)
                 Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
             }
