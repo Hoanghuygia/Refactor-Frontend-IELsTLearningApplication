@@ -5,9 +5,18 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.client.presentation.pages.aichat.AiChatScreen
 import com.example.client.presentation.pages.home.HomeScreen
+import com.example.client.presentation.pages.learning.LearningScreen
+import com.example.client.presentation.pages.listening.ListeningScreen
 import com.example.client.presentation.pages.login.LoginScreen
+import com.example.client.presentation.pages.notification.NotificationScreen
+import com.example.client.presentation.pages.profile.ProfileScreen
+import com.example.client.presentation.pages.reading.ReadingScreen
+import com.example.client.presentation.pages.settings.SettingsScreen
 import com.example.client.presentation.pages.signup.SignUpScreen
+import com.example.client.presentation.pages.speaking.SpeakingScreen
+import com.example.client.presentation.pages.writing.WritingScreen
 
 @Composable
 fun NavGraph(startDestination: String) {
@@ -21,6 +30,33 @@ fun NavGraph(startDestination: String) {
         }
         composable(route = Route.HomeScreen.route){
             HomeScreen(navController = navController, modifier = Modifier)
+        }
+        composable(route = Route.ReadingScreen.route){
+            ReadingScreen()
+        }
+        composable(route = Route.ListeningScreen.route){
+            ListeningScreen()
+        }
+        composable(route = Route.WritingScreen.route){
+            WritingScreen()
+        }
+        composable(route = Route.SpeakingScreen.route){
+            SpeakingScreen()
+        }
+        composable(route = Route.LearningScreen.route){
+            LearningScreen()
+        }
+        composable(route = Route.AiChatScreen.route){
+            AiChatScreen()
+        }
+        composable(route = Route.NotificationScreen.route){
+            NotificationScreen()
+        }
+        composable(route = Route.SettingsScreen.route){
+            SettingsScreen()
+        }
+        composable(route = Route.ProfileScreen.route){
+            ProfileScreen()
         }
     }
 }
