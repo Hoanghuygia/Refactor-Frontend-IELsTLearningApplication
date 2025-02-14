@@ -3,7 +3,9 @@ package com.example.client.di
 import com.example.client.domain.manager.LocalUserManager
 import com.example.client.domain.usecase.localapp.AppUsecase
 import com.example.client.domain.usecase.localapp.ReadToken
+import com.example.client.domain.usecase.localapp.ReadUser
 import com.example.client.domain.usecase.localapp.SaveToken
+import com.example.client.domain.usecase.localapp.SaveUser
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +19,8 @@ object UsecaseModule {
     @Singleton
     fun provideAppUseCase(localUserManager: LocalUserManager): AppUsecase = AppUsecase(
         saveToken = SaveToken(localUserManager),
-        readToken = ReadToken(localUserManager)
+        readToken = ReadToken(localUserManager),
+        saveUser = SaveUser(localUserManager),
+        readUser = ReadUser(localUserManager)
     )
 }

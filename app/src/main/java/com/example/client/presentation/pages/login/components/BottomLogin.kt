@@ -156,7 +156,7 @@ fun BottomLogin(
                 }
                 Spacer(modifier = Modifier.height(24.dp))
                 Button(
-                    onClick = {}, colors = ButtonDefaults.buttonColors(
+                    onClick = {navController.navigate(Route.HomeScreen.route)}, colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFFFFD700),
                         contentColor = Color.Black,
                         disabledContainerColor = Color.Gray,
@@ -181,7 +181,8 @@ fun BottomLogin(
                     onClick = {
                         loginViewModel.loginWithGoogle(
                             context = context,
-                            scope = coroutineScope
+                            scope = coroutineScope,
+                            navController = navController
                         )
                     })
                 Spacer(modifier = Modifier.height(24.dp))
