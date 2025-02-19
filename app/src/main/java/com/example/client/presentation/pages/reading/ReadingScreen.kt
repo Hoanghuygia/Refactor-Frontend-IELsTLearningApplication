@@ -17,7 +17,8 @@ import com.example.client.ui.theme.ClientTheme
 @Composable
 fun ReadingScreen() {
     val tabs = listOf(ReadingTabItem.ReadingAcademic, ReadingTabItem.GeneralTrainingAcademic)
-    val pagerState = rememberPagerState(pageCount = { tabs.size })
+//    val pagerState = rememberPagerState(pageCount = { tabs.size })
+    val pagerState = rememberPagerState(initialPage = 0) { tabs.size }
 
     Scaffold(
         topBar = {
