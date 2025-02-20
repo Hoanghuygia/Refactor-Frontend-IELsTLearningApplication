@@ -1,6 +1,7 @@
 package com.example.client.presentation.pages.reading
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.example.client.presentation.pages.reading.components.ReadingAcademic
 import com.example.client.presentation.pages.reading.components.ReadingGeneralTraining
 

@@ -34,7 +34,7 @@ import com.example.client.ui.theme.ClientTheme
 @Composable
 fun CommonTopBar(
     type: String?,
-    searchText: String,
+    contentText: String,
     onSearchTextChanged: (String) -> Unit,
     onBackClick: () -> Unit,
     onSettingsClick: () -> Unit
@@ -42,22 +42,29 @@ fun CommonTopBar(
     TopAppBar(
         navigationIcon = {
             IconButton(onClick = onBackClick) {
-                Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back")
+                Icon(
+                    Icons.Default.ArrowBackIosNew,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.tertiary
+                )
             }
         },
         title = {
             if (type != null) {
                 BasicTextField(
-                    value = searchText,
+                    value = contentText,
                     onValueChange = onSearchTextChanged,
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(42.dp)
                         .clip(RoundedCornerShape(50))
-                        .background(Color.LightGray)
+                        .background(Color.LightGray.copy(alpha = 0.5f))
                         .padding(horizontal = 16.dp, vertical = 10.dp),
-                    textStyle = TextStyle(fontSize = 14.sp, color = Color.Black),
+                    textStyle = TextStyle(
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.tertiary
+                    ),
                     decorationBox = { innerTextField ->
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -66,14 +73,17 @@ fun CommonTopBar(
                             Icon(
                                 Icons.Default.Search,
                                 contentDescription = "Search Icon",
-                                tint = Color.Gray
+                                tint = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f)
                             )
-                            Box(modifier = Modifier.weight(1f)) {
-                                if (searchText.isEmpty()) {
+                            Box(modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 6.dp)) {
+                                if (contentText.isEmpty()) {
                                     Text(
                                         text = "Search...",
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = Color.Gray
+                                        color = MaterialTheme.colorScheme.tertiary,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier.padding(bottom = 2.dp)
                                     )
                                 }
                                 innerTextField()
@@ -86,7 +96,11 @@ fun CommonTopBar(
         actions = {
             if (type != null) {
                 IconButton(onClick = onSettingsClick) {
-                    Icon(Icons.Default.MoreVert, contentDescription = "More")
+                    Icon(
+                        Icons.Default.MoreVert,
+                        contentDescription = "More",
+                        tint = MaterialTheme.colorScheme.tertiary
+                    )
                 }
             }
         }
@@ -100,7 +114,7 @@ fun PreviewTopAppBar() {
     ClientTheme {
         CommonTopBar(
             type = "abc",
-            searchText = "Search",
+            contentText = "Search",
             onSearchTextChanged = {},
             onSettingsClick = {},
             onBackClick = {})

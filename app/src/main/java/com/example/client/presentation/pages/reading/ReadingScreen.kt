@@ -6,27 +6,32 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.client.presentation.common.CommonTopBar
 import com.example.client.presentation.pages.reading.components.ReadingTabContent
 import com.example.client.presentation.pages.reading.components.ReadingTabs
 import com.example.client.ui.theme.ClientTheme
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ReadingScreen() {
+fun ReadingScreen(navController: NavController, viewModel: ReadingViewModel = hiltViewModel()) {
+    val uiState = viewModel.uiState.collectAsState().value
+
     val tabs = listOf(ReadingTabItem.ReadingAcademic, ReadingTabItem.GeneralTrainingAcademic)
-//    val pagerState = rememberPagerState(pageCount = { tabs.size })
     val pagerState = rememberPagerState(initialPage = 0) { tabs.size }
 
     Scaffold(
         topBar = {
             CommonTopBar(
                 type = "abc",
-                searchText = "Search",
-                onSearchTextChanged = {},
-                onBackClick = {},
+                contentText = uiState.searchTextField,
+                onSearchTextChanged = { newContent -> viewModel.updateSearchTextField(newContent) },
+                onBackClick = { navController.popBackStack() },
                 onSettingsClick = {})
         }
     ) { innerPadding ->
@@ -43,6 +48,6 @@ fun ReadingScreen() {
 @Composable
 fun PreviewReadingScreen() {
     ClientTheme {
-        ReadingScreen()
+        ReadingScreen(navController = rememberNavController())
     }
 }

@@ -22,9 +22,9 @@ fun HeaderWelcome() {
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF002147))
+//            .background(Color(0xFF002147))
+            .background(MaterialTheme.colorScheme.tertiary)
             .fillMaxHeight(0.25f)
-//                .background(Color.White.copy(alpha = 0f))
     ) {
         Column(horizontalAlignment = Alignment.Start) {
             Text(

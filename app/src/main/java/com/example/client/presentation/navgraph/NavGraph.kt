@@ -21,6 +21,7 @@ import com.example.client.presentation.pages.writing.WritingScreen
 @Composable
 fun NavGraph(startDestination: String) {
     val navController = rememberNavController()
+
     NavHost(navController = navController, startDestination = startDestination) {
         composable(route = Route.LoginScreen.route) {
             LoginScreen(navController = navController)
@@ -32,7 +33,7 @@ fun NavGraph(startDestination: String) {
             HomeScreen(navController = navController, modifier = Modifier)
         }
         composable(route = Route.ReadingScreen.route){
-            ReadingScreen()
+            ReadingScreen(navController = navController)
         }
         composable(route = Route.ListeningScreen.route){
             ListeningScreen()
