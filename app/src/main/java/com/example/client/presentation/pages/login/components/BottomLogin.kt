@@ -208,22 +208,3 @@ fun BottomLogin(
     }
 }
 
-//@Preview(showBackground = true, widthDp = 411, heightDp = 892) // For Samsung Galaxy A23 5G
-//@Composable
-//fun PreviewBottomLogin() {
-//    ClientTheme {
-//        Box(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .background(Color(0xFF002147))
-//        ) {
-//            BottomLogin(
-//                uiState = LoginUiState(),
-//                navController = rememberNavController(),
-//                loginViewModel = LoginViewModel(
-//                    appUsecase = TODO()
-//                ),
-//            )
-//        }
-//    }
-//}
