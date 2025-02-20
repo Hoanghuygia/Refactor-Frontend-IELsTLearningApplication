@@ -1,6 +1,7 @@
 package com.example.client.presentation.pages.reading.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +32,7 @@ import com.example.client.ui.theme.ClientTheme
 
 @Composable
 fun ReadingAssignment(modifier: Modifier = Modifier, readingTask: ReadingTask) {
-    Box(modifier = modifier.fillMaxWidth()) { // only the most above use the modifier that pass in
+    Box(modifier = modifier.fillMaxWidth().clickable{}) { // only the most above use the modifier that pass in
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -44,8 +45,9 @@ fun ReadingAssignment(modifier: Modifier = Modifier, readingTask: ReadingTask) {
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center
+                    .fillMaxSize().padding(start = 12.dp),
+//                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.CenterStart
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -75,12 +77,12 @@ fun ReadingAssignment(modifier: Modifier = Modifier, readingTask: ReadingTask) {
                         modifier = Modifier.padding(start = 16.dp)
                     ) {
                         Text(
-                            text = "Cambridge IELTS 16 Academic",
-                            fontSize = 20.sp,
+                            text = readingTask.book,
+                            fontSize = 19.sp,
 //                        fontWeight = FontWeight.SemiBold
                         )
                         Text(
-                            text = "Reading - Test 1",
+                            text = readingTask.name,
                             fontSize = 16.sp
                         )
                     }

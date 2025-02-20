@@ -14,18 +14,17 @@ import com.example.client.ui.theme.ClientTheme
 
 @Composable
 fun ReadingAcademic() {
-    val tasks = ReadingScreenData.tasks
+    val tasksAcademic = ReadingScreenData.tasksAcademic
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(20.dp),
         verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
-        items(tasks) { task ->
+        items(tasksAcademic) { task ->
             ReadingAssignment(modifier = Modifier, readingTask = task)
         }
     }
-
 }
 
 @Preview(showBackground = true)
