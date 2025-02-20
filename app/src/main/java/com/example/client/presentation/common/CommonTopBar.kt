@@ -63,7 +63,8 @@ fun CommonTopBar(
                         .padding(horizontal = 16.dp, vertical = 10.dp),
                     textStyle = TextStyle(
                         fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.tertiary
+                        color = MaterialTheme.colorScheme.tertiary,
+                        lineHeight = 18.sp
                     ),
                     decorationBox = { innerTextField ->
                         Row(
@@ -75,14 +76,17 @@ fun CommonTopBar(
                                 contentDescription = "Search Icon",
                                 tint = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f)
                             )
-                            Box(modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 6.dp)) {
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(start = 6.dp)
+                            ) {
                                 if (contentText.isEmpty()) {
                                     Text(
                                         text = "Search...",
-                                        color = MaterialTheme.colorScheme.tertiary,
+                                        color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
                                         fontSize = 14.sp,
+                                        lineHeight = 18.sp,
                                         modifier = Modifier.padding(bottom = 2.dp)
                                     )
                                 }
