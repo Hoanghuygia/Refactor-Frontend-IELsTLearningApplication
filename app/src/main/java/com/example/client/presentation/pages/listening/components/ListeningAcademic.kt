@@ -1,4 +1,4 @@
-package com.example.client.presentation.pages.reading.components
+package com.example.client.presentation.pages.listening.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,19 +9,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.client.presentation.common.TestCard
-import com.example.client.presentation.pages.reading.ReadingScreenData
+import com.example.client.presentation.pages.listening.ListeningScreenData
 
 @Composable
-fun ReadingGeneralTraining(){
-    val tasksGeneralTraining = ReadingScreenData.tasksGeneralTraining
+fun ListeningAcademic() {
+    val tasksAcademic = ListeningScreenData.tasksAcademic
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(20.dp),
         verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
-        items(tasksGeneralTraining) { task ->
-            TestCard(modifier = Modifier, test = task)
+        items(tasksAcademic) { test ->
+            TestCard(modifier = Modifier, test = test)
         }
     }
 }

@@ -1,6 +1,7 @@
-package com.example.client.presentation.pages.reading.components
+package com.example.client.presentation.common
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,15 +24,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.client.presentation.pages.reading.data.ReadingTask
-import com.example.client.ui.theme.ClientTheme
+import com.example.client.domain.model.Test
 
 @Composable
-fun ReadingAssignment(modifier: Modifier = Modifier, readingTask: ReadingTask) {
-    Box(modifier = modifier.fillMaxWidth()) { // only the most above use the modifier that pass in
+fun TestCard(modifier: Modifier = Modifier, test: Test) {
+    Box(modifier = modifier.fillMaxWidth().clickable{}) { // only the most above use the modifier that pass in
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -44,25 +43,26 @@ fun ReadingAssignment(modifier: Modifier = Modifier, readingTask: ReadingTask) {
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center
+                    .fillMaxSize().padding(start = 12.dp),
+//                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.CenterStart
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
                     Icon(
-                        imageVector = when (readingTask.progress) {
+                        imageVector = when (test.progress) {
                             "Done" -> Icons.Filled.CheckCircle
                             "InProgress" -> Icons.Filled.Update
                             else -> Icons.Filled.Bolt
                         },
-                        contentDescription = when (readingTask.progress) {
+                        contentDescription = when (test.progress) {
                             "Done" -> "Archived"
                             "InProgress" -> "InProgress"
                             else -> "Challenge"
                         },
-                        tint = when(readingTask.progress){
+                        tint = when(test.progress){
                             "Done" -> Color.Green.copy(alpha = 0.6f)
                             "InProgress" -> Color.Blue.copy(alpha = 0.6f)
                             else -> Color.LightGray
@@ -75,12 +75,12 @@ fun ReadingAssignment(modifier: Modifier = Modifier, readingTask: ReadingTask) {
                         modifier = Modifier.padding(start = 16.dp)
                     ) {
                         Text(
-                            text = "Cambridge IELTS 16 Academic",
-                            fontSize = 20.sp,
+                            text = test.book,
+                            fontSize = 19.sp,
 //                        fontWeight = FontWeight.SemiBold
                         )
                         Text(
-                            text = "Reading - Test 1",
+                            text = test.name,
                             fontSize = 16.sp
                         )
                     }
@@ -88,13 +88,5 @@ fun ReadingAssignment(modifier: Modifier = Modifier, readingTask: ReadingTask) {
 
             }
         }
-    }
-}
-
-@Preview(showBackground = true, widthDp = 371, heightDp = 892)
-@Composable
-fun PreviewReadingAssignment() {
-    ClientTheme {
-        ReadingAssignment(modifier = Modifier, ReadingTask(book = "", name = "", progress = ""))
     }
 }

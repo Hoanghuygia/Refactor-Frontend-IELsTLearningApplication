@@ -9,23 +9,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.client.presentation.common.TestCard
 import com.example.client.presentation.pages.reading.ReadingScreenData
 import com.example.client.ui.theme.ClientTheme
 
 @Composable
 fun ReadingAcademic() {
-    val tasks = ReadingScreenData.tasks
+    val tasksAcademic = ReadingScreenData.tasksAcademic
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(20.dp),
         verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
-        items(tasks) { task ->
-            ReadingAssignment(modifier = Modifier, readingTask = task)
+        items(tasksAcademic) { task ->
+            TestCard(modifier = Modifier, test = task)
         }
     }
-
 }
 
 @Preview(showBackground = true)

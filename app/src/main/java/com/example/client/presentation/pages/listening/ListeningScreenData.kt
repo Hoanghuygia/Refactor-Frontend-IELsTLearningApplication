@@ -1,109 +1,109 @@
-package com.example.client.presentation.pages.reading
+package com.example.client.presentation.pages.listening
 
 import com.example.client.domain.model.Test
 
-object ReadingScreenData {
+object  ListeningScreenData{
     val tasksAcademic = listOf(
         Test(
             book = "Cambridge IELTS 16 Academic",
-            name = "Reading - Test 1",
+            name = "Listening - Test 1",
             progress = "Done"
         ),
         Test(
             book = "Cambridge IELTS 16 Academic",
-            name = "Reading - Test 2",
+            name = "Listening - Test 2",
             progress = "InProgress"
         ),
         Test(
             book = "Cambridge IELTS 16 Academic",
-            name = "Reading - Test 3",
+            name = "Listening - Test 3",
             progress = ""
         ),
         Test(
             book = "Cambridge IELTS 16 Academic",
-            name = "Reading - Test 4",
+            name = "Listening - Test 4",
             progress = "Done"
         ),
         Test(
             book = "Cambridge IELTS 16 Academic",
-            name = "Reading - Test 5",
+            name = "Listening - Test 5",
             progress = "InProgress"
         ),
         Test(
             book = "Cambridge IELTS 16 Academic",
-            name = "Reading - Test 6",
+            name = "Listening - Test 6",
             progress = "Done"
         ),
         Test(
             book = "Cambridge IELTS 16 Academic",
-            name = "Reading - Test 7",
+            name = "Listening - Test 7",
             progress = ""
         ),
         Test(
             book = "Cambridge IELTS 16 Academic",
-            name = "Reading - Test 8",
+            name = "Listening - Test 8",
             progress = "InProgress"
         ),
         Test(
             book = "Cambridge IELTS 16 Academic",
-            name = "Reading - Test 9",
+            name = "Listening - Test 9",
             progress = "InProgress"
         ),
         Test(
             book = "Cambridge IELTS 16 Academic",
-            name = "Reading - Test 10",
+            name = "Listening - Test 10",
             progress = "Done"
         ),
     )
     val tasksGeneralTraining = listOf(
         Test(
             book = "General Training Exam 1",
-            name = "Reading - Test 1",
+            name = "Listening - Test 1",
             progress = "Done"
         ),
         Test(
             book = "General Training Exam 1",
-            name = "Reading - Test 2",
+            name = "Listening - Test 2",
             progress = "InProgress"
         ),
         Test(
             book = "General Training Exam  1",
-            name = "Reading - Test 3",
+            name = "Listening - Test 3",
             progress = ""
         ),
         Test(
             book = "General Training Exam 1",
-            name = "Reading - Test 4",
+            name = "Listening - Test 4",
             progress = "Done"
         ),
         Test(
             book = "General Training Exam 1",
-            name = "Reading - Test 5",
+            name = "Listening - Test 5",
             progress = "InProgress"
         ),
         Test(
             book = "General Training Exam 1",
-            name = "Reading - Test 6",
+            name = "Listening - Test 6",
             progress = "Done"
         ),
         Test(
             book = "General Training Exam 1",
-            name = "Reading - Test 7",
+            name = "Listening - Test 7",
             progress = ""
         ),
         Test(
             book = "General Training Exam 1",
-            name = "Reading - Test 8",
+            name = "Listening - Test 8",
             progress = "InProgress"
         ),
         Test(
             book = "General Training Exam 1",
-            name = "Reading - Test 9",
+            name = "Listening - Test 9",
             progress = "InProgress"
         ),
         Test(
             book = "General Training Exam 1",
-            name = "Reading - Test 10",
+            name = "Listening - Test 10",
             progress = "Done"
         ),
     )

@@ -50,7 +50,7 @@ fun CommonTopBar(
             }
         },
         title = {
-            if (type != null) {
+            if (type == TopBarType.SearchTopBar.type) {
                 BasicTextField(
                     value = contentText,
                     onValueChange = onSearchTextChanged,
@@ -98,7 +98,7 @@ fun CommonTopBar(
             }
         },
         actions = {
-            if (type != null) {
+            if (type == TopBarType.SearchTopBar.type) {
                 IconButton(onClick = onSettingsClick) {
                     Icon(
                         Icons.Default.MoreVert,
@@ -111,6 +111,9 @@ fun CommonTopBar(
     )
 }
 
+sealed class TopBarType(val type: String){
+    object SearchTopBar: TopBarType(type = "Search")
+}
 
 @Preview(showBackground = true, widthDp = 411, heightDp = 892)
 @Composable
