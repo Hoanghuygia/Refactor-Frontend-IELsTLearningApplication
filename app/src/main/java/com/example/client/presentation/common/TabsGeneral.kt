@@ -1,8 +1,7 @@
-package com.example.client.presentation.pages.reading.components
+package com.example.client.presentation.common
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -13,15 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.client.presentation.pages.reading.ReadingTabItem
-import com.example.client.ui.theme.ClientTheme
+import com.example.client.presentation.common.TabItem
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ReadingTabs(tabs: List<ReadingTabItem>, pagerState: PagerState) {
+fun TabGeneral(tabs: List<TabItem>, pagerState: PagerState) {
     val scope = rememberCoroutineScope()
 
     TabRow(
@@ -47,18 +44,5 @@ fun ReadingTabs(tabs: List<ReadingTabItem>, pagerState: PagerState) {
                 }
             )
         }
-    }
-}
-
-@Preview(showBackground = true, widthDp = 411, heightDp = 892)
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun PreviewReadingTab() {
-    ClientTheme {
-        val tabs = listOf(ReadingTabItem.ReadingAcademic, ReadingTabItem.GeneralTrainingAcademic)
-        val pagerState = rememberPagerState(
-            pageCount = { tabs.size }
-        )
-        ReadingTabs(tabs = tabs, pagerState = pagerState)
     }
 }
