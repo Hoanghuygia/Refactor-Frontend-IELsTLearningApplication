@@ -39,10 +39,10 @@ fun NavGraph(startDestination: String) {
             ListeningScreen(navController = navController)
         }
         composable(route = Route.WritingScreen.route){
-            WritingScreen()
+            WritingScreen(navController = navController)
         }
         composable(route = Route.SpeakingScreen.route){
-            SpeakingScreen()
+            SpeakingScreen(navController = navController)
         }
         composable(route = Route.LearningScreen.route){
             LearningScreen()

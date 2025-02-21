@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.client.presentation.common.TestCard
 import com.example.client.presentation.pages.reading.ReadingScreenData
 import com.example.client.ui.theme.ClientTheme
 
@@ -22,7 +23,7 @@ fun ReadingAcademic() {
         verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
         items(tasksAcademic) { task ->
-            ReadingAssignment(modifier = Modifier, readingTask = task)
+            TestCard(modifier = Modifier, test = task)
         }
     }
 }
