@@ -18,4 +18,10 @@ class LearningViewModel @Inject constructor(): ViewModel(){
             currentState.copy(searchTextField = newContent)
         }
     }
+
+    fun updateSorted(){
+        _uiState.update { currentState ->
+            currentState.copy(newest = !currentState.newest)
+        }
+    }
 }

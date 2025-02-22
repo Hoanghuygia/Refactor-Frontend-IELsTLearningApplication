@@ -19,7 +19,7 @@ import com.example.client.ui.theme.ClientTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun LearningScreen(navController: NavController, viewModel: WritingViewModel = hiltViewModel()) {
+fun LearningScreen(navController: NavController, viewModel: LearningViewModel = hiltViewModel()) {
     val uiState = viewModel.uiState.collectAsState().value
 
     Scaffold(
@@ -35,7 +35,7 @@ fun LearningScreen(navController: NavController, viewModel: WritingViewModel = h
         Column(
             modifier = Modifier.padding(innerPadding)
         ) {
-            LearningOption()
+            LearningOption(uiState.newest, viewModel = viewModel)
         }
     }
 }

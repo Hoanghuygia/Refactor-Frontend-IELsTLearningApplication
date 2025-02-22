@@ -24,10 +24,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.client.presentation.pages.learning.LearningViewModel
 import com.example.client.ui.theme.ClientTheme
 
 @Composable
-fun LearningOption() {
+fun LearningOption(newest: Boolean, viewModel: LearningViewModel) {
     val lineThickness: Float = 2f
 
     Row(
@@ -60,11 +61,23 @@ fun LearningOption() {
             )
         }
         Box(
-            modifier = Modifier.weight(1f).padding(start = 6.dp)
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 6.dp)
         ) {
-            Text(text = "Date added (newest)", style = MaterialTheme.typography.headlineSmall.copy(fontSize = 14.sp))
+            if (newest) {
+                Text(
+                    text = "Date added (newest)",
+                    style = MaterialTheme.typography.headlineSmall.copy(fontSize = 14.sp)
+                )
+            } else {
+                Text(
+                    text = "Date added (oldest)",
+                    style = MaterialTheme.typography.headlineSmall.copy(fontSize = 14.sp)
+                )
+            }
         }
-        IconButton(onClick = {}) {
+        IconButton(onClick = {viewModel.updateSorted()}) {
             Icon(
                 Icons.Default.Sync,
                 contentDescription = "Swap"
@@ -77,6 +90,6 @@ fun LearningOption() {
 @Composable
 fun PreviewLearningOption() {
     ClientTheme {
-        LearningOption()
+        LearningOption(false, viewModel = LearningViewModel())
     }
 }
