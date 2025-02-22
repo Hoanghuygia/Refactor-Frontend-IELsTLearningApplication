@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -16,7 +15,6 @@ import com.example.client.presentation.common.TabContent
 import com.example.client.presentation.common.TabGeneral
 import com.example.client.presentation.common.TabItem
 import com.example.client.presentation.common.TopBarType
-import com.example.client.presentation.pages.reading.ReadingViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
