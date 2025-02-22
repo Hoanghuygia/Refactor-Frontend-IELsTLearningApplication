@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -95,6 +96,8 @@ fun CommonTopBar(
                         }
                     }
                 )
+            } else if (type == TopBarType.LearningTopBar.type) {
+                Text(text = TopBarType.LearningTopBar.textContent ?: "")
             }
         },
         actions = {
@@ -106,13 +109,22 @@ fun CommonTopBar(
                         tint = MaterialTheme.colorScheme.tertiary
                     )
                 }
+            } else if (type == TopBarType.LearningTopBar.type) {
+                IconButton(onClick = onSettingsClick) {
+                    Icon(
+                        Icons.Default.Add,
+                        contentDescription = "Add word",
+                        tint = MaterialTheme.colorScheme.tertiary
+                    )
+                }
             }
         }
     )
 }
 
-sealed class TopBarType(val type: String){
-    object SearchTopBar: TopBarType(type = "Search")
+sealed class TopBarType(val type: String, val textContent: String? = null) {
+    object SearchTopBar : TopBarType(type = "Search")
+    object LearningTopBar : TopBarType(type = "Learning", textContent = "Custom Dictionary")
 }
 
 @Preview(showBackground = true, widthDp = 411, heightDp = 892)
@@ -120,7 +132,7 @@ sealed class TopBarType(val type: String){
 fun PreviewTopAppBar() {
     ClientTheme {
         CommonTopBar(
-            type = "abc",
+            type = TopBarType.LearningTopBar.type,
             contentText = "Search",
             onSearchTextChanged = {},
             onSettingsClick = {},
