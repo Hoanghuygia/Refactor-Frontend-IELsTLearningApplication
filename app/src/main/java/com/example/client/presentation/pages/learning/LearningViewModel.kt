@@ -13,6 +13,10 @@ class LearningViewModel @Inject constructor(): ViewModel(){
     private val _uiState = MutableStateFlow(LearningUiState())
     val uiState: StateFlow<LearningUiState> = _uiState.asStateFlow()
 
+    init {
+        uiState.value.words = LearningScreenData.words
+    }
+
     fun updateSearchTextField(newContent: String){
         _uiState.update { currentState ->
             currentState.copy(searchTextField = newContent)
