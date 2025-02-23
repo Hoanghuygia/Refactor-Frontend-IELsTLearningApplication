@@ -10,20 +10,27 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomOutlineTextField(value: String, placeHolder: String, height: Int, onValueChange: () -> Unit) {
+fun CustomOutlineTextField(
+    value: String,
+    placeHolder: String,
+    height: Int,
+    nextTextFieldRequester: FocusRequester?= null,
+    onValueChange: (String) -> Unit
+) {
     OutlinedTextField(
         value = value,
-        onValueChange = { onValueChange },
+        onValueChange = onValueChange,
         placeholder = {
             Text(text = placeHolder, color = Color.Gray.copy(alpha = 0.8f))
         },
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-        keyboardActions = KeyboardActions(onNext = {}),
+        keyboardActions = KeyboardActions(onNext = {nextTextFieldRequester?.requestFocus()}),
         modifier = Modifier
             .fillMaxWidth()
             .height(height.dp),

@@ -1,9 +1,11 @@
 package com.example.client.presentation.pages.learning.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -39,11 +42,18 @@ import com.example.client.R
 import com.example.client.domain.model.Word
 import com.example.client.ui.theme.ClientTheme
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WordCard(word: Word) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .clickable {}) {
+fun WordCard(word: Word, deleteOption: Boolean, onClick: (Int) -> Unit, onLongClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+//        .clickable { }
+            .combinedClickable(
+                onClick = {},
+                onLongClick = onLongClick
+            )
+    ) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -68,11 +78,27 @@ fun WordCard(word: Word) {
                         style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                         modifier = Modifier.weight(1f)
                     )
-                    IconButton(onClick = {}, modifier = Modifier.size(24.dp)) { // default size of Icon is 24.dp, button icon is 48.dp
-                        Icon(
-                            Icons.Default.Edit,
-                            contentDescription = "Edit word"
-                        )
+                    if (!deleteOption) {
+                        IconButton(
+                            onClick = { onClick(0) },
+                            modifier = Modifier.size(24.dp)
+                        ) { // default size of Icon is 24.dp, button icon is 48.dp
+                            Icon(
+                                Icons.Default.Edit,
+                                contentDescription = "Edit word"
+                            )
+                        }
+                    }
+                    else{
+                        IconButton(
+                            onClick = { },
+                            modifier = Modifier.size(24.dp)
+                        ) {
+                            Icon(
+                                Icons.Default.RadioButtonUnchecked,
+                                contentDescription = "Choose"
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.padding(end = 6.dp))
                 }
@@ -107,6 +133,6 @@ fun WordCard(word: Word) {
 @Composable
 fun PreviewWordCard() {
     ClientTheme {
-        WordCard(Word("admiration", "verb", "sự ngưỡng mộ"))
+        WordCard(Word("admiration", "verb", "sự ngưỡng mộ"), true, onClick = {}, onLongClick = {})
     }
 }
