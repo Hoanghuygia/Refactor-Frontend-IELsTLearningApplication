@@ -8,5 +8,7 @@ data class LearningUiState(
     var words: List<Word> = listOf(),
     var wordTextField: String = "",
     var wordTypeTextField: String = "",
-    var wordMeaningTextField: String = ""
+    var wordMeaningTextField: String = "",
+    var showDialog: Boolean = false,
+    var deleteOption: Boolean = false
 )

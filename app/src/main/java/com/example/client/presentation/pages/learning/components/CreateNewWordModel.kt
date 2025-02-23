@@ -4,10 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
@@ -19,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +42,9 @@ fun CreateNewWordModal(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
     ) {
+        val wordTypeRequester = FocusRequester()
+        val wordMeaningRequester = FocusRequester()
+
         Surface(
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
@@ -64,11 +66,13 @@ fun CreateNewWordModal(
                     value = word,
                     placeHolder = "Enter a new word",
                     height = 52,
+                    nextTextFieldRequester = wordTypeRequester,
                     onValueChange = { viewModel.updateTextFieldAddWord(it, "new_word") })
                 CustomOutlineTextField(
                     value = wordType,
                     placeHolder = "Enter type of word",
                     height = 52,
+                    nextTextFieldRequester = wordMeaningRequester,
                     onValueChange = { viewModel.updateTextFieldAddWord(it, "word_type") })
                 CustomOutlineTextField(
                     value = wordMeaning,

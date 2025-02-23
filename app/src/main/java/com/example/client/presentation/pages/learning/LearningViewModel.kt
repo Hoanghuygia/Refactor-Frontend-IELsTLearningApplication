@@ -1,5 +1,8 @@
 package com.example.client.presentation.pages.learning
 
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.example.client.domain.model.Word
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,6 +41,30 @@ class LearningViewModel @Inject constructor() : ViewModel() {
             "word_type" -> currentState.copy(wordTypeTextField = newContent)
             "word_meaning" -> currentState.copy(wordMeaningTextField = newContent)
             else -> currentState
+        }
+    }
+
+    fun updateShowDialog(){
+        _uiState.update { currentState ->
+            currentState.copy(showDialog = !currentState.showDialog)
+        }
+    }
+
+    fun updateDeleteOption(){
+        _uiState.update { currentState ->
+            currentState.copy(deleteOption = !currentState.deleteOption)
+        }
+    }
+
+    fun updateWord(index: Int){
+        updateShowDialog()
+        Log.i("update word", "Go here ${uiState.value.showDialog}")
+        _uiState.update { currentState ->
+            currentState.copy(
+                wordTextField = currentState.words[index].word,
+                wordTypeTextField = currentState.words[index].type,
+                wordMeaningTextField = currentState.words[index].meaning
+            )
         }
     }
 
