@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Client</string>
+    <string name="app_name">PeakIELTS</string>
     <string name="sign_up">Sign Up</string>
     <string name="login">Login</string>
     <string name="or_with">Or With</string>

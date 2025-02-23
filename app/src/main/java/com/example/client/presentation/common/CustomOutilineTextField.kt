@@ -15,10 +15,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomOutlineTextField(value: String, placeHolder: String, height: Int, onValueChange: () -> Unit) {
+fun CustomOutlineTextField(value: String, placeHolder: String, height: Int, onValueChange: (String) -> Unit) {
     OutlinedTextField(
         value = value,
-        onValueChange = { onValueChange },
+        onValueChange = onValueChange ,
         placeholder = {
             Text(text = placeHolder, color = Color.Gray.copy(alpha = 0.8f))
         },

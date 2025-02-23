@@ -25,7 +25,8 @@ import com.example.client.presentation.pages.learning.components.CreateNewWordMo
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LearningScreen(navController: NavController, viewModel: LearningViewModel = hiltViewModel()) {
-    val uiState = viewModel.uiState.collectAsState().value
+//    val uiState = viewModel.uiState.collectAsState().value
+    val uiState by viewModel.uiState.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -47,6 +48,10 @@ fun LearningScreen(navController: NavController, viewModel: LearningViewModel = 
     }
     if (showDialog) {
         CreateNewWordModal(
+            word = uiState.wordTextField,
+            wordType = uiState.wordTypeTextField,
+            wordMeaning = uiState.wordMeaningTextField,
+            viewModel = viewModel,
             onDismissRequest = { showDialog = false },
             onConfirmRequest = {
                 showDialog = false

@@ -26,11 +26,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.example.client.presentation.common.CustomOutlineTextField
+import com.example.client.presentation.pages.learning.LearningViewModel
 import com.example.client.ui.theme.ClientTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateNewWordModal(
+    word: String,
+    wordType: String,
+    wordMeaning: String,
+    viewModel: LearningViewModel,
     onDismissRequest: () -> Unit,
     onConfirmRequest: () -> Unit,
 ) {
@@ -42,8 +47,6 @@ fun CreateNewWordModal(
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
                 .size(width = 325.dp, height = 500.dp)
-//                .width(400.dp)
-//                .height(500.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -58,22 +61,22 @@ fun CreateNewWordModal(
                     fontWeight = FontWeight.SemiBold
                 )
                 CustomOutlineTextField(
-                    value = "",
+                    value = word,
                     placeHolder = "Enter a new word",
                     height = 52,
-                    onValueChange = {})
+                    onValueChange = { viewModel.updateTextFieldAddWord(it, "new_word") })
                 CustomOutlineTextField(
-                    value = "",
+                    value = wordType,
                     placeHolder = "Enter type of word",
                     height = 52,
-                    onValueChange = {})
+                    onValueChange = { viewModel.updateTextFieldAddWord(it, "word_type") })
                 CustomOutlineTextField(
-                    value = "",
+                    value = wordMeaning,
                     placeHolder = "Enter meaning of word",
                     height = 200,
-                    onValueChange = {})
+                    onValueChange = { viewModel.updateTextFieldAddWord(it, "word_meaning") })
                 Button(
-                    onClick = {},
+                    onClick = { viewModel.addWord() },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFFFFD700),
                         contentColor = Color.White
@@ -92,6 +95,13 @@ fun CreateNewWordModal(
 @Composable
 fun PreviewCreateWordModal() {
     ClientTheme {
-        CreateNewWordModal(onConfirmRequest = {}, onDismissRequest = {})
+        CreateNewWordModal(
+            "",
+            "",
+            "",
+            onConfirmRequest = {},
+            onDismissRequest = {},
+            viewModel = LearningViewModel()
+        )
     }
 }
