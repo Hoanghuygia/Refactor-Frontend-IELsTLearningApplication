@@ -44,45 +44,68 @@ class LearningViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun updateShowDialog(){
+    fun updateShowDialog() {
         _uiState.update { currentState ->
             currentState.copy(showDialog = !currentState.showDialog)
         }
     }
 
-    fun updateDeleteOption(){
+    fun updateDeleteOption() {
         _uiState.update { currentState ->
             currentState.copy(deleteOption = !currentState.deleteOption)
         }
     }
 
-    fun updateWord(index: Int){
+    fun updateWord(index: Int) {
         updateShowDialog()
         Log.i("update word", "Go here ${uiState.value.showDialog}")
         _uiState.update { currentState ->
             currentState.copy(
                 wordTextField = currentState.words[index].word,
                 wordTypeTextField = currentState.words[index].type,
-                wordMeaningTextField = currentState.words[index].meaning
+                wordMeaningTextField = currentState.words[index].meaning,
+                updateWordIndex = index
             )
         }
     }
 
-    fun addWord() {
+    fun addOrUpdateWord(index: Int? = null) {
         val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+        val currentTime = sdf.format(System.currentTimeMillis())
+
         val newWord = Word(
             word = uiState.value.wordTextField,
             type = uiState.value.wordTypeTextField,
             meaning = uiState.value.wordMeaningTextField,
-            createdAt = sdf.format(System.currentTimeMillis())
+            createdAt = if (index == null) currentTime else uiState.value.words[index].createdAt,
+            updatedAt = if (index != null) currentTime else ""
         )
+
         _uiState.update { currentState ->
+            val updatedWords = if (index == null) {
+                currentState.words + newWord
+            } else {
+                currentState.words.toMutableList().apply {
+                    this[index] = newWord
+                }
+            }
+
             currentState.copy(
-                words = currentState.words + newWord,
+                words = updatedWords,
                 wordTextField = "",
                 wordTypeTextField = "",
-                wordMeaningTextField = ""
+                wordMeaningTextField = "",
             )
         }
+    }
+
+    fun updateNullIndexWord() {
+        _uiState.update { currentState ->
+            currentState.copy(updateWordIndex = null)
+        }
+    }
+
+    private fun isWordInListIgnoreCase(wordToCheck: String): Boolean {
+        return LearningScreenData.words.any { it.word.equals(wordToCheck, ignoreCase = true) }
     }
 }

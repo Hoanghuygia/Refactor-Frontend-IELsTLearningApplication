@@ -35,6 +35,7 @@ fun CreateNewWordModal(
     wordType: String,
     wordMeaning: String,
     viewModel: LearningViewModel,
+    updateIndex: Int?,
     onDismissRequest: () -> Unit,
     onConfirmRequest: () -> Unit,
 ) {
@@ -80,7 +81,7 @@ fun CreateNewWordModal(
                     height = 200,
                     onValueChange = { viewModel.updateTextFieldAddWord(it, "word_meaning") })
                 Button(
-                    onClick = { viewModel.addWord() },
+                    onClick = { viewModel.addOrUpdateWord(updateIndex) },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFFFFD700),
                         contentColor = Color.White
@@ -103,6 +104,7 @@ fun PreviewCreateWordModal() {
             "",
             "",
             "",
+            updateIndex = 1,
             onConfirmRequest = {},
             onDismissRequest = {},
             viewModel = LearningViewModel()

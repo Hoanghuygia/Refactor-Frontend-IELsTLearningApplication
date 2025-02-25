@@ -32,7 +32,16 @@ fun LearningScreen(navController: NavController, viewModel: LearningViewModel = 
     LaunchedEffect(uiState.words) {
         if (uiState.showDialog) {
             val lastWord = uiState.words.last()
-            Toast.makeText(context, "Created: ${lastWord.word} successfully", Toast.LENGTH_SHORT).show()
+            if (uiState.updateWordIndex == null) {
+                Toast.makeText(
+                    context,
+                    "Created: ${lastWord.word} successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(context, "Updated: successfully", Toast.LENGTH_SHORT).show()
+                viewModel.updateNullIndexWord()
+            }
             viewModel.updateShowDialog()
         }
     }
@@ -51,7 +60,11 @@ fun LearningScreen(navController: NavController, viewModel: LearningViewModel = 
             modifier = Modifier.padding(innerPadding)
         ) {
             LearningOption(uiState.newest, viewModel = viewModel)
-            WordsPart(words = uiState.words, deleteOption = uiState.deleteOption, viewModel = viewModel)
+            WordsPart(
+                words = uiState.words,
+                deleteOption = uiState.deleteOption,
+                viewModel = viewModel
+            )
         }
     }
     if (uiState.showDialog) {
@@ -59,6 +72,7 @@ fun LearningScreen(navController: NavController, viewModel: LearningViewModel = 
             word = uiState.wordTextField,
             wordType = uiState.wordTypeTextField,
             wordMeaning = uiState.wordMeaningTextField,
+            updateIndex = uiState.updateWordIndex,
             viewModel = viewModel,
             onDismissRequest = { viewModel.updateShowDialog() },
             onConfirmRequest = {
