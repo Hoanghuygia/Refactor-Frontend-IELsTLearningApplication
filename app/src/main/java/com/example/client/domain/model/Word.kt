@@ -5,5 +5,6 @@ data class Word(
     val type: String,
     val meaning: String,
     val createdAt: String = "",
-    val updatedAt: String = ""
+    val updatedAt: String = "",
+    var isSelected: Boolean = false
 )

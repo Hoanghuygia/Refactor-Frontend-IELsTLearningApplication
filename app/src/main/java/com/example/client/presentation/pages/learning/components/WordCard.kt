@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.RadioButtonChecked
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -44,7 +45,14 @@ import com.example.client.ui.theme.ClientTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WordCard(word: Word, deleteOption: Boolean, onClick: (Int) -> Unit, onLongClick: () -> Unit) {
+fun WordCard(
+    word: Word,
+    deleteOption: Boolean,
+    onClick: (Int) -> Unit,
+    onLongClick: () -> Unit,
+    onSelectWord: (Int) -> Unit,
+    index: Int
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -80,7 +88,7 @@ fun WordCard(word: Word, deleteOption: Boolean, onClick: (Int) -> Unit, onLongCl
                     )
                     if (!deleteOption) {
                         IconButton(
-                            onClick = { onClick(0) },
+                            onClick = { onClick(index) },
                             modifier = Modifier.size(24.dp)
                         ) { // default size of Icon is 24.dp, button icon is 48.dp
                             Icon(
@@ -88,16 +96,23 @@ fun WordCard(word: Word, deleteOption: Boolean, onClick: (Int) -> Unit, onLongCl
                                 contentDescription = "Edit word"
                             )
                         }
-                    }
-                    else{
+                    } else {
                         IconButton(
-                            onClick = { },
+                            onClick = { onSelectWord(index) },
                             modifier = Modifier.size(24.dp)
                         ) {
-                            Icon(
-                                Icons.Default.RadioButtonUnchecked,
-                                contentDescription = "Choose"
-                            )
+                            if (word.isSelected) {
+                                Icon(
+                                    Icons.Default.RadioButtonChecked,
+                                    contentDescription = "Selected"
+                                )
+                            } else {
+                                Icon(
+                                    Icons.Default.RadioButtonUnchecked,
+                                    contentDescription = "Unselected"
+                                )
+                            }
+
                         }
                     }
                     Spacer(modifier = Modifier.padding(end = 6.dp))
@@ -133,6 +148,13 @@ fun WordCard(word: Word, deleteOption: Boolean, onClick: (Int) -> Unit, onLongCl
 @Composable
 fun PreviewWordCard() {
     ClientTheme {
-        WordCard(Word("admiration", "verb", "sự ngưỡng mộ"), true, onClick = {}, onLongClick = {})
+        WordCard(
+            Word("admiration", "verb", "sự ngưỡng mộ"),
+            true,
+            onClick = {},
+            onLongClick = {},
+            onSelectWord = {},
+            index = 0
+            )
     }
 }
