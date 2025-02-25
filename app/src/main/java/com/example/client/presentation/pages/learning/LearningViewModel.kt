@@ -1,8 +1,6 @@
 package com.example.client.presentation.pages.learning
 
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.example.client.domain.model.Word
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,9 +48,18 @@ class LearningViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun updateDeleteModalStatus() {
+        _uiState.update { currentState ->
+            currentState.copy(deleteModal = !currentState.deleteModal)
+        }
+    }
+
     fun updateDeleteOption() {
         _uiState.update { currentState ->
-            currentState.copy(deleteOption = !currentState.deleteOption)
+            currentState.copy(
+                deleteOption = !currentState.deleteOption,
+                deleteModal = !currentState.deleteModal
+            )
         }
     }
 
@@ -104,6 +111,48 @@ class LearningViewModel @Inject constructor() : ViewModel() {
             currentState.copy(updateWordIndex = null)
         }
     }
+
+//    fun toggleWordSelection(index: Int) {
+//        val currentWords = _uiState.value.words.toMutableList()
+//        if (index in currentWords.indices) {
+//            val selectedWord = currentWords[index]
+//            selectedWord.isSelected = !selectedWord.isSelected
+//            _uiState.value = _uiState.value.copy(words = currentWords)
+//        }
+//    }
+
+    fun toggleWordSelection(index: Int) {
+        val currentWords = _uiState.value.words.toMutableList()
+        if (index in currentWords.indices) {
+            val selectedWord = currentWords[index] // Compose do not see it when we change directly as above
+            val updatedWord = selectedWord.copy(isSelected = !selectedWord.isSelected)
+            currentWords[index] = updatedWord
+            _uiState.value = _uiState.value.copy(words = currentWords)
+        }
+        updateDeletedListWord(index)
+    }
+
+    fun updateDeletedListWord(index: Int) {
+        val currentDeletedIndexList = _uiState.value.deleteWordIndexList.toMutableList()
+        currentDeletedIndexList.add(index)
+        _uiState.value = _uiState.value.copy(
+            deleteWordIndexList = currentDeletedIndexList
+        )
+    }
+
+    fun deleteWordWithIndex(indexDeleted: List<Int>){
+        val currentWords = uiState.value.words.toMutableList()
+        val sortedIndices = indexDeleted.sortedDescending()
+
+        sortedIndices.forEach { index ->
+            if (index in currentWords.indices) {
+                currentWords.removeAt(index)
+            }
+        }
+
+        _uiState.value = _uiState.value.copy(words = currentWords)
+    }
+
 
     private fun isWordInListIgnoreCase(wordToCheck: String): Boolean {
         return LearningScreenData.words.any { it.word.equals(wordToCheck, ignoreCase = true) }

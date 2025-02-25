@@ -11,5 +11,7 @@ data class LearningUiState(
     var wordMeaningTextField: String = "",
     var showDialog: Boolean = false,
     var deleteOption: Boolean = false,
-    var updateWordIndex: Int? = null
+    var updateWordIndex: Int? = null,
+    var deleteModal: Boolean = false,
+    var deleteWordIndexList: List<Int> = emptyList()
 )
