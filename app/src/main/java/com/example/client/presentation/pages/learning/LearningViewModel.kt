@@ -1,6 +1,5 @@
 package com.example.client.presentation.pages.learning
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.client.domain.model.Word
 import dagger.hilt.android.lifecycle.HiltViewModel

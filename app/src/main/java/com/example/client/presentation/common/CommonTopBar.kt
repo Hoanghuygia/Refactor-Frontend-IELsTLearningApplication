@@ -3,6 +3,7 @@ package com.example.client.presentation.common
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.UnfoldMore
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -98,6 +100,8 @@ fun CommonTopBar(
                 )
             } else if (type == TopBarType.LearningTopBar.type) {
                 Text(text = TopBarType.LearningTopBar.textContent ?: "")
+            } else if (type == TopBarType.AIChatTopBar.type) {
+                Text(text = TopBarType.AIChatTopBar.textContent ?: "")
             }
         },
         actions = {
@@ -117,6 +121,16 @@ fun CommonTopBar(
                         tint = MaterialTheme.colorScheme.tertiary
                     )
                 }
+                Spacer(modifier = Modifier.padding(end = 6.dp))
+            }
+            else if (type == TopBarType.AIChatTopBar.type){
+                IconButton(onClick = onSettingsClick) {
+                    Icon(
+                        Icons.Default.UnfoldMore,
+                        contentDescription = "Unfold chats",
+                        tint = MaterialTheme.colorScheme.tertiary
+                    )
+                }
             }
         }
     )
@@ -125,6 +139,7 @@ fun CommonTopBar(
 sealed class TopBarType(val type: String, val textContent: String? = null) {
     object SearchTopBar : TopBarType(type = "Search")
     object LearningTopBar : TopBarType(type = "Learning", textContent = "Custom Dictionary")
+    object AIChatTopBar : TopBarType(type = "AiChat", textContent = "AI Chatbot")
 }
 
 @Preview(showBackground = true, widthDp = 411, heightDp = 892)
