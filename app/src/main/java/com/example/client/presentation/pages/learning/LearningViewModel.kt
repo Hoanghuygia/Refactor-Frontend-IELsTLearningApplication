@@ -65,7 +65,6 @@ class LearningViewModel @Inject constructor() : ViewModel() {
 
     fun updateWord(index: Int) {
         updateShowDialog()
-        Log.i("update word", "Go here ${uiState.value.showDialog}")
         _uiState.update { currentState ->
             currentState.copy(
                 wordTextField = currentState.words[index].word,
@@ -129,27 +128,11 @@ class LearningViewModel @Inject constructor() : ViewModel() {
             currentWords[index] = updatedWord
             _uiState.value = _uiState.value.copy(words = currentWords)
         }
-        updateDeletedListWord(index)
     }
 
-    fun updateDeletedListWord(index: Int) {
-        val currentDeletedIndexList = _uiState.value.deleteWordIndexList.toMutableList()
-        currentDeletedIndexList.add(index)
-        _uiState.value = _uiState.value.copy(
-            deleteWordIndexList = currentDeletedIndexList
-        )
-    }
-
-    fun deleteWordWithIndex(indexDeleted: List<Int>){
+    fun deleteSelectedWord() {
         val currentWords = uiState.value.words.toMutableList()
-        val sortedIndices = indexDeleted.sortedDescending()
-
-        sortedIndices.forEach { index ->
-            if (index in currentWords.indices) {
-                currentWords.removeAt(index)
-            }
-        }
-
+        currentWords.removeAll { it.isSelected }
         _uiState.value = _uiState.value.copy(words = currentWords)
     }
 

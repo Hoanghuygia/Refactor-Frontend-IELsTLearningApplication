@@ -13,5 +13,4 @@ data class LearningUiState(
     var deleteOption: Boolean = false,
     var updateWordIndex: Int? = null,
     var deleteModal: Boolean = false,
-    var deleteWordIndexList: List<Int> = emptyList()
 )
