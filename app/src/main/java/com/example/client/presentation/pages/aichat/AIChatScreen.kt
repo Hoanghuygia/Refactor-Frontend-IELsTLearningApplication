@@ -31,9 +31,7 @@ fun AiChatScreen(viewModel: AiChatViewModel = hiltViewModel(), navController: Na
             CommonTopBar(
                 type = TopBarType.AIChatTopBar.type,
                 contentText = TopBarType.AIChatTopBar.textContent.toString(),
-                onSearchTextChanged = { },
                 onBackClick = { navController.popBackStack() },
-                onSettingsClick = { }
             )
         },
         bottomBar = { SendingBar(uiState = uiState, viewModel = viewModel, modifier = Modifier) }

@@ -1,5 +1,6 @@
 package com.example.client.presentation.pages.learning.components
 
+//import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -45,17 +46,22 @@ fun SendingBar(uiState: AiChatUiState, viewModel: AiChatViewModel, modifier: Mod
         horizontalArrangement = Arrangement.Center,
         modifier = modifier
             .navigationBarsPadding()
-            .imePadding().height(42.dp)
+            .imePadding()
+            .height(42.dp)
     ) {
         Icon(
             Icons.Rounded.CameraAlt,
             contentDescription = "Next",
-            modifier = modifier.padding(horizontal = 8.dp)
+            tint = Color.Blue.copy(alpha = 0.6f),
+            modifier = modifier
+                .padding(horizontal = 8.dp)
+                .height(42.dp)
+                .clickable {}
         )
 
         BasicTextField(
             value = uiState.messageTextField,
-            onValueChange = {viewModel.updateMessageTextField(it) },
+            onValueChange = { viewModel.updateMessageTextField(it) },
             modifier = Modifier
                 .weight(1f)
                 .height(42.dp)
@@ -95,12 +101,16 @@ fun SendingBar(uiState: AiChatUiState, viewModel: AiChatViewModel, modifier: Mod
             }
         )
         Icon(
-            Icons.Filled.PlayArrow,
+            Icons.AutoMirrored.Filled.Send,
             contentDescription = "Next",
+            tint = Color.Blue.copy(alpha = 0.6f),
             modifier = Modifier
-                .padding(end = 8.dp)
+                .padding(horizontal = 8.dp)
                 .height(42.dp)
-                .clickable {})
+                .clickable {
+                    viewModel.updateCurrentChat(uiState.messageTextField, entity = 1)
+                    viewModel.clearEnterTextField()
+                })
     }
 }
 

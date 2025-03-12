@@ -61,9 +61,9 @@ fun BottomLogin(
     val emailFocusRequester = FocusRequester()
     val passwordFocusRequester = FocusRequester()
 
-    LaunchedEffect(Unit) {
-        emailFocusRequester.requestFocus()
-    }
+//    LaunchedEffect(Unit) {
+//        emailFocusRequester.requestFocus()
+//    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Card(
@@ -108,7 +108,6 @@ fun BottomLogin(
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(emailFocusRequester)
-//                        .height(48.dp)
                         .heightIn(min = 36.dp),
                     shape = RoundedCornerShape(8.dp),
                     colors = OutlinedTextFieldDefaults.colors(

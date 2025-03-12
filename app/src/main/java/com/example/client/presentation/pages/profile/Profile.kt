@@ -1,9 +1,67 @@
 package com.example.client.presentation.pages.profile
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.client.R
+import com.example.client.presentation.common.CommonTopBar
+import com.example.client.presentation.common.TopBarType
+import com.example.client.presentation.pages.profile.components.BackgroundAndAvatarHolder
+import com.example.client.ui.theme.ClientTheme
 
 @Composable
-fun ProfileScreen(){
-    Text(text = "Profile page")
+fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: NavController) {
+    val uiState = viewModel.uiState.collectAsState().value
+
+    Scaffold(
+        topBar = {
+            CommonTopBar(
+                type = TopBarType.ProfileTopBar.type,
+                contentText = TopBarType.ProfileTopBar.textContent.toString(),
+                onChangeProfileClick = { viewModel.toggleEditMode() }
+            )
+        }
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            BackgroundAndAvatarHolder(
+                backgroundImage = R.drawable.bg,
+                avatarImage = painterResource(R.drawable.avatar),
+                showName = "Nguyễn Phạm Diễm Quỳnh",
+                status = uiState.userStatus,
+                editableMode = uiState.editableMode
+            )
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start
+            ) {
+
+            }
+        }
+        Text(text = "Profile Screen")
+    }
+}
+
+@Preview(showBackground = true, widthDp = 411, heightDp = 892)
+@Composable
+fun PreviewProfileScreen(){
+    ClientTheme {
+        ProfileScreen(navController = rememberNavController())
+    }
 }

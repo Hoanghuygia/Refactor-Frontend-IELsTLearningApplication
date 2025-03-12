@@ -88,7 +88,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier) {
                     NotificationScreen()
                 }
                 3 -> {
-                    ProfileScreen()
+                    ProfileScreen(navController = navController)
                 }
                 4 -> {
                     SettingsScreen()
