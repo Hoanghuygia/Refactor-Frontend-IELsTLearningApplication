@@ -50,15 +50,15 @@ fun CommonTopBar(
             if (type == TopBarType.ProfileTopBar.type) Modifier.height(70.dp) else Modifier
         ),
         navigationIcon = {
-            if (type != TopBarType.ProfileTopBar.type) {
-                IconButton(onClick = onBackClick) {
-                    Icon(
-                        Icons.Default.ArrowBackIosNew,
-                        contentDescription = "Back",
-                        tint = MaterialTheme.colorScheme.tertiary
-                    )
-                }
+//            if (type != TopBarType.ProfileTopBar.type) {
+            IconButton(onClick = onBackClick) {
+                Icon(
+                    Icons.Default.ArrowBackIosNew,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.tertiary
+                )
             }
+//            }
         },
         title = {
             if (type == TopBarType.SearchTopBar.type) {

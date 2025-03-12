@@ -18,4 +18,10 @@ class ProfileViewModel @Inject constructor(): ViewModel() {
             currentState.copy(editableMode = !currentState.editableMode)
         }
     }
+
+    fun changeGenderPicker(selectedOptionText: String){
+        _uiState.update { currentState ->
+            currentState.copy(selectedOptionText = selectedOptionText)
+        }
+    }
 }
