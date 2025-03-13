@@ -78,7 +78,8 @@ fun LearningScreen(navController: NavController, viewModel: LearningViewModel = 
         }
         DeleteModal(visible = uiState.deleteModal,
             onDismissRequest = {viewModel.updateDeleteOption()},
-            onDeleteConfirm = {viewModel.deleteWordWithIndex(uiState.deleteWordIndexList)},
+//            onDeleteConfirm = {viewModel.deleteWordWithIndex(uiState.deleteWordIndexList)},
+            onDeleteConfirm = {viewModel.deleteSelectedWord()},
             modifier = Modifier.align(
                 Alignment.BottomCenter
             )

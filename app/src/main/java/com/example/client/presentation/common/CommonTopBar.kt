@@ -3,15 +3,18 @@ package com.example.client.presentation.common
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,6 +32,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.client.presentation.pages.aichat.components.ChatsMenu
 import com.example.client.ui.theme.ClientTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,12 +40,17 @@ import com.example.client.ui.theme.ClientTheme
 fun CommonTopBar(
     type: String?,
     contentText: String,
-    onSearchTextChanged: (String) -> Unit,
-    onBackClick: () -> Unit,
-    onSettingsClick: () -> Unit
+    onSearchTextChanged: (String) -> Unit = {},
+    onBackClick: () -> Unit = {},
+    onSettingsClick: () -> Unit = {},
+    onChangeProfileClick: () -> Unit = {}
 ) {
     TopAppBar(
+        modifier = Modifier.then(
+            if (type == TopBarType.ProfileTopBar.type) Modifier.height(70.dp) else Modifier
+        ),
         navigationIcon = {
+//            if (type != TopBarType.ProfileTopBar.type) {
             IconButton(onClick = onBackClick) {
                 Icon(
                     Icons.Default.ArrowBackIosNew,
@@ -49,6 +58,7 @@ fun CommonTopBar(
                     tint = MaterialTheme.colorScheme.tertiary
                 )
             }
+//            }
         },
         title = {
             if (type == TopBarType.SearchTopBar.type) {
@@ -98,6 +108,10 @@ fun CommonTopBar(
                 )
             } else if (type == TopBarType.LearningTopBar.type) {
                 Text(text = TopBarType.LearningTopBar.textContent ?: "")
+            } else if (type == TopBarType.AIChatTopBar.type) {
+                Text(text = TopBarType.AIChatTopBar.textContent ?: "")
+            } else if (type == TopBarType.ProfileTopBar.type) {
+                Text(text = TopBarType.ProfileTopBar.textContent ?: "")
             }
         },
         actions = {
@@ -117,6 +131,25 @@ fun CommonTopBar(
                         tint = MaterialTheme.colorScheme.tertiary
                     )
                 }
+                Spacer(modifier = Modifier.padding(end = 6.dp))
+            } else if (type == TopBarType.ProfileTopBar.type) {
+                IconButton(onClick = onChangeProfileClick) {
+                    Icon(
+                        Icons.Default.EditNote,
+                        contentDescription = "Edit profile",
+                        tint = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+            } else if (type == TopBarType.AIChatTopBar.type) {
+//                IconButton(onClick = onSettingsClick) {
+//                    Icon(
+//                        Icons.Default.UnfoldMore,
+//                        contentDescription = "Unfold chats",
+//                        tint = MaterialTheme.colorScheme.tertiary
+//                    )
+//                }
+                ChatsMenu()
             }
         }
     )
@@ -125,6 +158,8 @@ fun CommonTopBar(
 sealed class TopBarType(val type: String, val textContent: String? = null) {
     object SearchTopBar : TopBarType(type = "Search")
     object LearningTopBar : TopBarType(type = "Learning", textContent = "Custom Dictionary")
+    object AIChatTopBar : TopBarType(type = "AiChat", textContent = "AI Chatbot")
+    object ProfileTopBar : TopBarType(type = "Profile", textContent = "Account")
 }
 
 @Preview(showBackground = true, widthDp = 411, heightDp = 892)

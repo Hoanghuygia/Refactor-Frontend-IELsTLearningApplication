@@ -48,7 +48,7 @@ fun NavGraph(startDestination: String) {
             LearningScreen(navController = navController)
         }
         composable(route = Route.AiChatScreen.route){
-            AiChatScreen()
+            AiChatScreen(navController = navController)
         }
         composable(route = Route.NotificationScreen.route){
             NotificationScreen()
@@ -57,7 +57,7 @@ fun NavGraph(startDestination: String) {
             SettingsScreen()
         }
         composable(route = Route.ProfileScreen.route){
-            ProfileScreen()
+            ProfileScreen(navController = navController)
         }
     }
 }

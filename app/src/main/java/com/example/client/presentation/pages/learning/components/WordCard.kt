@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,7 +47,7 @@ import com.example.client.ui.theme.ClientTheme
 fun WordCard(
     word: Word,
     deleteOption: Boolean,
-    onClick: (Int) -> Unit,
+    onUpdateWord: (Int) -> Unit,
     onLongClick: () -> Unit,
     onSelectWord: (Int) -> Unit,
     index: Int
@@ -58,7 +57,7 @@ fun WordCard(
             .fillMaxWidth()
 //        .clickable { }
             .combinedClickable(
-                onClick = {},
+                onClick = {onSelectWord(index)},
                 onLongClick = onLongClick
             )
     ) {
@@ -88,7 +87,7 @@ fun WordCard(
                     )
                     if (!deleteOption) {
                         IconButton(
-                            onClick = { onClick(index) },
+                            onClick = { onUpdateWord(index) },
                             modifier = Modifier.size(24.dp)
                         ) { // default size of Icon is 24.dp, button icon is 48.dp
                             Icon(
@@ -151,7 +150,7 @@ fun PreviewWordCard() {
         WordCard(
             Word("admiration", "verb", "sự ngưỡng mộ"),
             true,
-            onClick = {},
+            onUpdateWord = {},
             onLongClick = {},
             onSelectWord = {},
             index = 0

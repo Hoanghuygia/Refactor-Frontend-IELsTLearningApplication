@@ -22,7 +22,7 @@ fun WordsPart(words: List<Word>, deleteOption: Boolean, viewModel: LearningViewM
             WordCard(
                 word = word,
                 deleteOption = deleteOption,
-                onClick = { viewModel.updateWord(index) },
+                onUpdateWord = { viewModel.updateWord(index) },
                 onLongClick = { viewModel.updateDeleteOption() },
                 onSelectWord = {viewModel.toggleWordSelection(index)},
                 index = index
