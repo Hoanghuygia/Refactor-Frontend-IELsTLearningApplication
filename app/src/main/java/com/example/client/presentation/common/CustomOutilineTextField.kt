@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -28,13 +29,20 @@ fun CustomOutlineTextField(
     textFieldType: String = "",
     currentTextFieldRequester: FocusRequester? = null,
     nextTextFieldRequester: FocusRequester? = null,
+    editableMode: Boolean? = null,
     onValueChange: (String) -> Unit = {},
     onNext: (() -> Unit)? = null
 ) {
     val purpleColor = Color(0xFF7800E6)
+    val focusManager = LocalFocusManager.current
+
+    var unfocusedBorderColor = if (editableMode != false) Color.Gray.copy(alpha = 0.6f) else Color.White
+    var focusedBorderColor = if (editableMode != false) Color.Blue.copy(alpha = 0.6f) else Color.White
+    var editable = if (editableMode != false) true else false
 
     OutlinedTextField(
         value = value,
+        readOnly = !editable,
         onValueChange = onValueChange,
         placeholder = {
             Text(text = placeHolder, color = Color.Gray.copy(alpha = 0.8f))
@@ -58,16 +66,24 @@ fun CustomOutlineTextField(
         },
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
         keyboardActions = KeyboardActions(onNext = {
-            onNext?.invoke() ?: nextTextFieldRequester?.requestFocus()
+//            onNext?.invoke() ?: nextTextFieldRequester?.requestFocus()
+            onNext?.invoke() ?: run {
+                if (nextTextFieldRequester != null) {
+                    nextTextFieldRequester.requestFocus()
+                } else {
+                    focusManager.clearFocus()
+                }
+            }
         }),
+
         modifier = Modifier
             .fillMaxWidth()
             .height(height.dp)
             .then(currentTextFieldRequester?.let { Modifier.focusRequester(it) } ?: Modifier),
         shape = RoundedCornerShape(8.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.Gray.copy(alpha = 0.6f),
-            unfocusedBorderColor = Color.Gray.copy(alpha = 0.6f),
+            focusedBorderColor = focusedBorderColor,
+            unfocusedBorderColor = unfocusedBorderColor,
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White
         )

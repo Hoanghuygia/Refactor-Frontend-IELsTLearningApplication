@@ -21,6 +21,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
@@ -94,14 +96,23 @@ fun DatePickerDocked() {
 }
 
 @Composable
-fun DatePickerFieldToModal(modifier: Modifier = Modifier, nextRequester: FocusRequester, onSelectDOB: (String) -> Unit = {}) {
+fun DatePickerFieldToModal(modifier: Modifier = Modifier, editableMode: Boolean, currentRequester: FocusRequester?, nextRequester: FocusRequester, onSelectDOB: (String) -> Unit = {}) {
     var selectedDate by remember { mutableStateOf<Long?>(null) }
     var showModal by remember { mutableStateOf(false) }
 
     val purpleColor = Color(0xFF7800E6)
+    var focusedBorderColor = if(editableMode) Color.Blue.copy(alpha = 0.6f) else Color.White
+    var unfocusedBorderColor = if(editableMode) Color.Gray.copy(alpha = 0.6f) else Color.White
+
+    LaunchedEffect(editableMode) {
+        if (!editableMode) {
+            showModal = false
+        }
+    }
 
     OutlinedTextField(
         value = selectedDate?.let { convertMillisToDate(it) } ?: "",
+//        readOnly = !editableMode,
         onValueChange = { onSelectDOB(selectedDate?.let { convertMillisToDate(it) } ?: "") },
         label = { Text(text = "Date of Birth", color = Color.Gray.copy(alpha = 0.8f)) },
         placeholder = { Text("MM/DD/YYYY") },
@@ -110,18 +121,20 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier, nextRequester: FocusRe
         },
         modifier = modifier
             .fillMaxWidth()
-            .pointerInput(selectedDate) {
+            .pointerInput(Unit) {
                 awaitEachGesture {
                     awaitFirstDown(pass = PointerEventPass.Initial)
                     val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
                     if (upEvent != null) {
-                        showModal = true
+                            showModal = true
                     }
                 }
-            },
+            }
+            .then(currentRequester?.let { Modifier.focusRequester(it) } ?: Modifier)
+        ,
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.Blue.copy(alpha = 0.6f),
-            unfocusedBorderColor = Color.Gray.copy(alpha = 0.6f),
+            focusedBorderColor = focusedBorderColor,
+            unfocusedBorderColor = unfocusedBorderColor,
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White
         ),
@@ -137,7 +150,6 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier, nextRequester: FocusRe
             onDismiss = { showModal = false }
         )
     }
-
 }
 
 fun convertMillisToDate(millis: Long): String {

@@ -33,6 +33,7 @@ import com.example.client.ui.theme.ClientTheme
 fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: NavController) {
     val uiState = viewModel.uiState.collectAsState().value
 
+    val dobRequester = FocusRequester()
     val emailRequester = FocusRequester()
     val targetRequester = FocusRequester()
 
@@ -69,9 +70,12 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
                 ) {
                     GenderPicker(
                         options = uiState.optionsGender,
+                        uiState.editableMode,
                         onSelectOptionText = { viewModel.changeGenderPicker(it) })
                     DatePickerFieldToModal(
                         modifier = Modifier,
+                        uiState.editableMode,
+                        currentRequester = dobRequester,
                         nextRequester = emailRequester,
                         onSelectDOB = { viewModel.changeDOB(it) })
                     Spacer(modifier = Modifier.height(12.dp))
@@ -82,6 +86,7 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
                         textFieldType = TextFieldType.ProfileTextFieldEmail.type,
                         currentTextFieldRequester = emailRequester,
                         nextTextFieldRequester = targetRequester,
+                        editableMode = uiState.editableMode,
                         onValueChange = {viewModel.updateEmail(it)})
                     Spacer(modifier = Modifier.height(12.dp))
                     CustomOutlineTextField(
@@ -90,6 +95,7 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
                         height = 52,
                         textFieldType = TextFieldType.ProfileTextFieldTarget.type,
                         currentTextFieldRequester = targetRequester,
+                        editableMode = uiState.editableMode,
                         onValueChange = {viewModel.updateTarget(it)})
                 }
             }

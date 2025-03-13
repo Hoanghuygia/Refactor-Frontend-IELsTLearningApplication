@@ -32,12 +32,19 @@ import com.example.client.ui.theme.ClientTheme
 @Composable
 fun GenderPicker(
     options: List<String> = emptyList<String>(),
+    editableMode: Boolean,
     onSelectOptionText: (String) -> Unit = {}
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(options[0]) }
 
-    val purpleColor = Color(0xFF7800E6)
+    var iconColor = Color(0xFF7800E6)
+    var focusIndicatorColor = Color.White
+    var unfocusIndicatorColor = Color.White
+    if(editableMode){
+        focusIndicatorColor = Color.Red.copy(alpha = 0.6f)
+        unfocusIndicatorColor = Color.Gray.copy(alpha = 0.6f)
+    }
 
     LaunchedEffect(Unit) {
         onSelectOptionText(selectedOptionText)
@@ -45,7 +52,7 @@ fun GenderPicker(
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { expanded = !expanded },
+        onExpandedChange = { if(editableMode) expanded = !expanded },
     ) {
         TextField(
             readOnly = true,
@@ -56,17 +63,18 @@ fun GenderPicker(
                 Icon(
                     imageVector = Icons.Filled.Transgender,
                     contentDescription = "Gender picker",
-                    tint = purpleColor
+                    tint = iconColor
                 )
             },
             trailingIcon = {
+                if(!editableMode) iconColor = Color.Gray
                 Icon(
                     imageVector = if (expanded)
                         Icons.Filled.KeyboardArrowUp
                     else
                         Icons.Filled.KeyboardArrowDown,
                     contentDescription = "Dropdown arrow",
-                    tint = purpleColor
+                    tint = iconColor
                 )
             },
             modifier = Modifier
@@ -75,8 +83,8 @@ fun GenderPicker(
             colors = ExposedDropdownMenuDefaults.textFieldColors(
                 focusedLabelColor = Color.Gray.copy(alpha = 0.6f),
                 unfocusedLabelColor = Color.Gray.copy(alpha = 0.6f),
-                focusedIndicatorColor = Color.Gray.copy(alpha = 0.6f),
-                unfocusedIndicatorColor = Color.Gray.copy(alpha = 0.6f),
+                focusedIndicatorColor = focusIndicatorColor,
+                unfocusedIndicatorColor = unfocusIndicatorColor,
                 unfocusedContainerColor = Color.White,
                 focusedContainerColor = Color.White
             ),
@@ -113,7 +121,7 @@ fun GenderPicker(
 @Composable
 fun PreviewGenderPicker() {
     ClientTheme {
-        GenderPicker(options = listOf("Male", "Female", "Other"))
+        GenderPicker(options = listOf("Male", "Female", "Other"), false)
     }
 }
 
