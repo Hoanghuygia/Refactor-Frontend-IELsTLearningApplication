@@ -30,4 +30,16 @@ class ProfileViewModel @Inject constructor(): ViewModel() {
             currentState.copy(selectedDate = selectedDate)
         }
     }
+
+    fun updateEmail(email: String){
+        _uiState.update { currentState ->
+            currentState.copy(emailTextField = email)
+        }
+    }
+
+    fun updateTarget(target: String){
+        _uiState.update { currentState ->
+            currentState.copy(targetTextField = target)
+        }
+    }
 }

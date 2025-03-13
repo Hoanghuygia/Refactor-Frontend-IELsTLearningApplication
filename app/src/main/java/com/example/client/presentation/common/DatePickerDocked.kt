@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
@@ -93,7 +94,7 @@ fun DatePickerDocked() {
 }
 
 @Composable
-fun DatePickerFieldToModal(modifier: Modifier = Modifier, onSelectDOB: (String) -> Unit = {}) {
+fun DatePickerFieldToModal(modifier: Modifier = Modifier, nextRequester: FocusRequester, onSelectDOB: (String) -> Unit = {}) {
     var selectedDate by remember { mutableStateOf<Long?>(null) }
     var showModal by remember { mutableStateOf(false) }
 
@@ -102,7 +103,7 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier, onSelectDOB: (String) 
     OutlinedTextField(
         value = selectedDate?.let { convertMillisToDate(it) } ?: "",
         onValueChange = { onSelectDOB(selectedDate?.let { convertMillisToDate(it) } ?: "") },
-        label = { Text("Date of Birth") },
+        label = { Text(text = "Date of Birth", color = Color.Gray.copy(alpha = 0.8f)) },
         placeholder = { Text("MM/DD/YYYY") },
         leadingIcon = {
             Icon(Icons.Default.DateRange, contentDescription = "Select date", tint = purpleColor)
@@ -128,6 +129,7 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier, onSelectDOB: (String) 
 
     if (showModal) {
         DatePickerModal(
+            nextRequester = nextRequester,
             onDateSelected = {
                 selectedDate = it
                 onSelectDOB(it?.let { convertMillisToDate(it) } ?: "")
@@ -151,10 +153,10 @@ fun PreviewDaterPicker1() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewDatePicker2() {
-    ClientTheme {
-        DatePickerFieldToModal(modifier = Modifier)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewDatePicker2() {
+//    ClientTheme {
+//        DatePickerFieldToModal(modifier = Modifier, nextRequester )
+//    }
+//}

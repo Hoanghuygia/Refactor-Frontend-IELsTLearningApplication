@@ -43,6 +43,7 @@ fun CreateNewWordModal(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
     ) {
+        val wordRequester = FocusRequester()
         val wordTypeRequester = FocusRequester()
         val wordMeaningRequester = FocusRequester()
 
@@ -67,19 +68,24 @@ fun CreateNewWordModal(
                     value = word,
                     placeHolder = "Enter a new word",
                     height = 52,
+                    currentTextFieldRequester = wordRequester,
                     nextTextFieldRequester = wordTypeRequester,
                     onValueChange = { viewModel.updateTextFieldAddWord(it, "new_word") })
                 CustomOutlineTextField(
                     value = wordType,
                     placeHolder = "Enter type of word",
                     height = 52,
+                    currentTextFieldRequester = wordTypeRequester,
                     nextTextFieldRequester = wordMeaningRequester,
                     onValueChange = { viewModel.updateTextFieldAddWord(it, "word_type") })
                 CustomOutlineTextField(
                     value = wordMeaning,
                     placeHolder = "Enter meaning of word",
                     height = 200,
-                    onValueChange = { viewModel.updateTextFieldAddWord(it, "word_meaning") })
+                    currentTextFieldRequester = wordMeaningRequester,
+                    onValueChange = { viewModel.updateTextFieldAddWord(it, "word_meaning") },
+                    onNext = { viewModel.addOrUpdateWord(updateIndex) }
+                )
                 Button(
                     onClick = { viewModel.addOrUpdateWord(updateIndex) },
                     colors = ButtonDefaults.buttonColors(

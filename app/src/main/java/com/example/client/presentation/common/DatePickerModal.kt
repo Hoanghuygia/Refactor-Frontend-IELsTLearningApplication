@@ -7,10 +7,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.focus.FocusRequester
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerModal(
+    nextRequester: FocusRequester,
     onDateSelected: (Long?) -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -21,6 +23,7 @@ fun DatePickerModal(
         confirmButton = {
             TextButton(onClick = {
                 onDateSelected(datePickerState.selectedDateMillis)
+                nextRequester.requestFocus()
                 onDismiss()
             }) {
                 Text("OK")

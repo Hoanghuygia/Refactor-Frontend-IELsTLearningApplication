@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,6 +32,9 @@ import com.example.client.ui.theme.ClientTheme
 @Composable
 fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: NavController) {
     val uiState = viewModel.uiState.collectAsState().value
+
+    val emailRequester = FocusRequester()
+    val targetRequester = FocusRequester()
 
     Scaffold(
         topBar = {
@@ -68,6 +72,7 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
                         onSelectOptionText = { viewModel.changeGenderPicker(it) })
                     DatePickerFieldToModal(
                         modifier = Modifier,
+                        nextRequester = emailRequester,
                         onSelectDOB = { viewModel.changeDOB(it) })
                     Spacer(modifier = Modifier.height(12.dp))
                     CustomOutlineTextField(
@@ -75,14 +80,17 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
                         placeHolder = "Email",
                         height = 52,
                         textFieldType = TextFieldType.ProfileTextFieldEmail.type,
-                        onValueChange = {})
+                        currentTextFieldRequester = emailRequester,
+                        nextTextFieldRequester = targetRequester,
+                        onValueChange = {viewModel.updateEmail(it)})
                     Spacer(modifier = Modifier.height(12.dp))
                     CustomOutlineTextField(
                         value = uiState.targetTextField,
                         placeHolder = "Target",
                         height = 52,
                         textFieldType = TextFieldType.ProfileTextFieldTarget.type,
-                        onValueChange = {})
+                        currentTextFieldRequester = targetRequester,
+                        onValueChange = {viewModel.updateTarget(it)})
                 }
             }
         }

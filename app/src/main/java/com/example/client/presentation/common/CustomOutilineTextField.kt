@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -25,8 +26,10 @@ fun CustomOutlineTextField(
     placeHolder: String,
     height: Int,
     textFieldType: String = "",
+    currentTextFieldRequester: FocusRequester? = null,
     nextTextFieldRequester: FocusRequester? = null,
-    onValueChange: (String) -> Unit = {}
+    onValueChange: (String) -> Unit = {},
+    onNext: (() -> Unit)? = null
 ) {
     val purpleColor = Color(0xFF7800E6)
 
@@ -38,7 +41,7 @@ fun CustomOutlineTextField(
         },
         leadingIcon = if (textFieldType != "") {
             {
-                IconButton(onClick = { /* Xử lý sự kiện */ }) {
+                IconButton(onClick = {  }) {
                     Icon(
                         painter = when (textFieldType) {
                             TextFieldType.ProfileTextFieldEmail.type -> painterResource(id = R.drawable.mail_24px)
@@ -54,19 +57,24 @@ fun CustomOutlineTextField(
             null
         },
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-        keyboardActions = KeyboardActions(onNext = { nextTextFieldRequester?.requestFocus() }),
+        keyboardActions = KeyboardActions(onNext = {
+            onNext?.invoke() ?: nextTextFieldRequester?.requestFocus()
+        }),
         modifier = Modifier
             .fillMaxWidth()
-            .height(height.dp),
+            .height(height.dp)
+            .then(currentTextFieldRequester?.let { Modifier.focusRequester(it) } ?: Modifier),
         shape = RoundedCornerShape(8.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = Color.Gray.copy(alpha = 0.6f),
             unfocusedBorderColor = Color.Gray.copy(alpha = 0.6f),
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White
         )
     )
 }
 
 sealed class TextFieldType(val type: String, val placeHolder: String? = null) {
-    object ProfileTextFieldEmail : TextFieldType(type = "Profile", placeHolder = "Email")
-    object ProfileTextFieldTarget : TextFieldType(type = "Profile", placeHolder = "Target")
+    object ProfileTextFieldEmail : TextFieldType(type = "ProfileEmail", placeHolder = "Email")
+    object ProfileTextFieldTarget : TextFieldType(type = "ProfileTarget", placeHolder = "Target")
 }
