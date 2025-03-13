@@ -24,4 +24,10 @@ class ProfileViewModel @Inject constructor(): ViewModel() {
             currentState.copy(selectedOptionText = selectedOptionText)
         }
     }
+
+    fun changeDOB(selectedDate: String){
+        _uiState.update { currentState ->
+            currentState.copy(selectedDate = selectedDate)
+        }
+    }
 }

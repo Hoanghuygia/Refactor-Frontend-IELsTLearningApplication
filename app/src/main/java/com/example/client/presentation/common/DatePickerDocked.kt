@@ -17,22 +17,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
-import com.example.client.presentation.pages.profile.components.GenderPicker
 import com.example.client.ui.theme.ClientTheme
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -92,40 +93,47 @@ fun DatePickerDocked() {
 }
 
 @Composable
-fun DatePickerFieldToModal(modifier: Modifier = Modifier) {
+fun DatePickerFieldToModal(modifier: Modifier = Modifier, onSelectDOB: (String) -> Unit = {}) {
     var selectedDate by remember { mutableStateOf<Long?>(null) }
     var showModal by remember { mutableStateOf(false) }
 
+    val purpleColor = Color(0xFF7800E6)
+
     OutlinedTextField(
         value = selectedDate?.let { convertMillisToDate(it) } ?: "",
-        onValueChange = { },
-        label = { Text("DOB") },
+        onValueChange = { onSelectDOB(selectedDate?.let { convertMillisToDate(it) } ?: "") },
+        label = { Text("Date of Birth") },
         placeholder = { Text("MM/DD/YYYY") },
         trailingIcon = {
-            Icon(Icons.Default.DateRange, contentDescription = "Select date")
+            Icon(Icons.Default.DateRange, contentDescription = "Select date", tint = purpleColor)
         },
         modifier = modifier
             .fillMaxWidth()
             .pointerInput(selectedDate) {
                 awaitEachGesture {
-                    // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
-                    // in the Initial pass to observe events before the text field consumes them
-                    // in the Main pass.
                     awaitFirstDown(pass = PointerEventPass.Initial)
                     val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
                     if (upEvent != null) {
                         showModal = true
                     }
                 }
-            }
+            },
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = Color.Blue.copy(alpha = 0.6f),
+            unfocusedBorderColor = Color.Gray.copy(alpha = 0.6f)
+        ),
     )
 
     if (showModal) {
         DatePickerModal(
-            onDateSelected = { selectedDate = it },
+            onDateSelected = {
+                selectedDate = it
+                onSelectDOB(it?.let { convertMillisToDate(it) } ?: "")
+            },
             onDismiss = { showModal = false }
         )
     }
+
 }
 
 fun convertMillisToDate(millis: Long): String {
@@ -135,7 +143,7 @@ fun convertMillisToDate(millis: Long): String {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewGenderPicker() {
+fun PreviewDaterPicker1() {
     ClientTheme {
         DatePickerDocked()
     }
@@ -143,7 +151,7 @@ fun PreviewGenderPicker() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewDatePicker() {
+fun PreviewDatePicker2() {
     ClientTheme {
         DatePickerFieldToModal(modifier = Modifier)
     }

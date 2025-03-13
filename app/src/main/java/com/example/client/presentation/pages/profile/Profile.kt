@@ -63,8 +63,8 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
                     horizontalAlignment = Alignment.Start,
                     modifier = Modifier.padding(20.dp)
                 ) {
-                    GenderPicker(options = uiState.optionsGender)
-                    DatePickerFieldToModal(modifier = Modifier)
+                    GenderPicker(options = uiState.optionsGender, onSelectOptionText = {viewModel.changeGenderPicker(it)})
+                    DatePickerFieldToModal(modifier = Modifier, onSelectDOB = {viewModel.changeDOB(it)})
                 }
             }
         }

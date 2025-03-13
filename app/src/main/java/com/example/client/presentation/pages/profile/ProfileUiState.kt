@@ -7,5 +7,6 @@ data class ProfileUiState(
     var editableMode: Boolean = true,
     var userStatus: Boolean = false,
     var optionsGender: List<String> = listOf("Male", "Female", "Other"),
-    var selectedOptionText: String = ""
+    var selectedOptionText: String = "",
+    var selectedDate: String = ""
 )
