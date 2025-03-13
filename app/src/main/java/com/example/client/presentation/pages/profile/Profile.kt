@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -21,8 +20,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.client.R
 import com.example.client.presentation.common.CommonTopBar
-import com.example.client.presentation.common.DatePickerDocked
+import com.example.client.presentation.common.CustomOutlineTextField
 import com.example.client.presentation.common.DatePickerFieldToModal
+import com.example.client.presentation.common.TextFieldType
 import com.example.client.presentation.common.TopBarType
 import com.example.client.presentation.pages.profile.components.BackgroundAndAvatarHolder
 import com.example.client.presentation.pages.profile.components.GenderPicker
@@ -63,8 +63,26 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
                     horizontalAlignment = Alignment.Start,
                     modifier = Modifier.padding(20.dp)
                 ) {
-                    GenderPicker(options = uiState.optionsGender, onSelectOptionText = {viewModel.changeGenderPicker(it)})
-                    DatePickerFieldToModal(modifier = Modifier, onSelectDOB = {viewModel.changeDOB(it)})
+                    GenderPicker(
+                        options = uiState.optionsGender,
+                        onSelectOptionText = { viewModel.changeGenderPicker(it) })
+                    DatePickerFieldToModal(
+                        modifier = Modifier,
+                        onSelectDOB = { viewModel.changeDOB(it) })
+                    Spacer(modifier = Modifier.height(12.dp))
+                    CustomOutlineTextField(
+                        value = uiState.emailTextField,
+                        placeHolder = "Email",
+                        height = 52,
+                        textFieldType = TextFieldType.ProfileTextFieldEmail.type,
+                        onValueChange = {})
+                    Spacer(modifier = Modifier.height(12.dp))
+                    CustomOutlineTextField(
+                        value = uiState.targetTextField,
+                        placeHolder = "Target",
+                        height = 52,
+                        textFieldType = TextFieldType.ProfileTextFieldTarget.type,
+                        onValueChange = {})
                 }
             }
         }

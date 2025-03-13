@@ -104,7 +104,7 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier, onSelectDOB: (String) 
         onValueChange = { onSelectDOB(selectedDate?.let { convertMillisToDate(it) } ?: "") },
         label = { Text("Date of Birth") },
         placeholder = { Text("MM/DD/YYYY") },
-        trailingIcon = {
+        leadingIcon = {
             Icon(Icons.Default.DateRange, contentDescription = "Select date", tint = purpleColor)
         },
         modifier = modifier
@@ -120,7 +120,9 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier, onSelectDOB: (String) 
             },
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = Color.Blue.copy(alpha = 0.6f),
-            unfocusedBorderColor = Color.Gray.copy(alpha = 0.6f)
+            unfocusedBorderColor = Color.Gray.copy(alpha = 0.6f),
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White
         ),
     )
 
