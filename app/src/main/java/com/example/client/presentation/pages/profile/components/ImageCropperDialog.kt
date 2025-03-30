@@ -59,8 +59,7 @@ fun ImageCropperDialog(
                     modifier = Modifier
                         .size(250.dp)
                         .background(Color.LightGray)
-                        .clipToBounds()
-                    ,
+                        .clipToBounds(),
                     contentAlignment = Alignment.Center
                 ) {
                     if (imageUri != null) {

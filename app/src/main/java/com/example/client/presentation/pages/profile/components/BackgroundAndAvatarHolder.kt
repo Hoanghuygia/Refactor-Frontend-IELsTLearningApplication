@@ -1,7 +1,6 @@
 package com.example.client.presentation.pages.profile.components
 
 import android.net.Uri
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,30 +27,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.example.client.R
 import com.example.client.presentation.pages.profile.ProfileUiState
-import com.example.client.ui.theme.ClientTheme
 
 @Composable
 fun BackgroundAndAvatarHolder(
-    @DrawableRes backgroundImage: Int,
-    avatarImage: Painter,
     showName: String,
-    status: Boolean,
-    editableMode: Boolean,
     uiState: ProfileUiState,
     tempAvatarUri: Uri?,
-    showAvatarCropper: Boolean,
     onBgChange: () -> Unit = {},
     onAvatarChange: () -> Unit = {},
     onUpdateAvatar: (Uri, Float, Offset) -> Unit,
@@ -59,25 +49,23 @@ fun BackgroundAndAvatarHolder(
 ) {
     val context = LocalContext.current
 
-    val backgroundPainter = if(uiState.bgUri != null){
+    val backgroundPainter = if (uiState.bgUri != null) {
         rememberAsyncImagePainter(
             model = ImageRequest.Builder(context)
                 .data(uiState.bgUri)
                 .build()
         )
-    }
-    else{
+    } else {
         painterResource(id = uiState.backgroundImage)
     }
 
-    val avatarPainter = if(uiState.avatarUri != null){
+    val avatarPainter = if (uiState.avatarUri != null) {
         rememberAsyncImagePainter(
             model = ImageRequest.Builder(context)
                 .data(uiState.avatarUri)
                 .build()
         )
-    }
-    else{
+    } else {
         painterResource(id = uiState.avatarImage)
     }
 
@@ -87,13 +75,12 @@ fun BackgroundAndAvatarHolder(
             .height(LocalConfiguration.current.screenHeightDp.dp / 4)
     ) {
         Image(
-//            painter = painterResource(id = backgroundImage),
             painter = backgroundPainter,
             contentDescription = "Profile Background",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxWidth()
         )
-        if (editableMode) {
+        if (uiState.editableMode) {
             IconButton(onClick = { onBgChange() }, modifier = Modifier.align(Alignment.BottomEnd)) {
                 Icon(
                     Icons.Default.CameraAlt,
@@ -113,7 +100,6 @@ fun BackgroundAndAvatarHolder(
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(
-//                    painter = avatarImage,
                     painter = avatarPainter,
                     contentScale = ContentScale.Crop,
                     contentDescription = "Avatar Profile",
@@ -129,7 +115,7 @@ fun BackgroundAndAvatarHolder(
                         )
                 )
 
-                if (editableMode) {
+                if (uiState.editableMode) {
                     IconButton(
                         onClick = { onAvatarChange() },
                         modifier = Modifier.align(Alignment.BottomEnd)
@@ -144,7 +130,7 @@ fun BackgroundAndAvatarHolder(
                         modifier = Modifier
                             .size(30.dp)
                             .clip(CircleShape)
-                            .background(if (status) Color.Green else Color.Gray)
+                            .background(if (uiState.userStatus) Color.Green else Color.Gray)
                             .border(2.dp, Color.White, CircleShape)
                             .offset(x = (-20).dp, y = (-20).dp)
                     )
@@ -158,7 +144,7 @@ fun BackgroundAndAvatarHolder(
             )
         }
     }
-    if (showAvatarCropper && tempAvatarUri != null) {
+    if (uiState.showAvatarCropper && tempAvatarUri != null) {
         ImageCropperDialog(
             imageUri = tempAvatarUri,
             onDismiss = { onDismissAvatarCropper() },
@@ -167,19 +153,6 @@ fun BackgroundAndAvatarHolder(
     }
 }
 
-//@Preview(showBackground = true, widthDp = 411, heightDp = 892)
-//@Composable
-//fun PreviewBackgroundAndAvatarHolder() {
-//    ClientTheme {
-//        BackgroundAndAvatarHolder(
-//            backgroundImage = R.drawable.bg,
-//            avatarImage = painterResource(R.drawable.avatar),
-//            showName = "Nguyen Pham Diem Quynh",
-//            status = true,
-//            editableMode = true
-//        )
-//    }
-//}
 
 
 
