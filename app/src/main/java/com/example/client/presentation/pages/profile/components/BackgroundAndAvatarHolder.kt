@@ -1,5 +1,6 @@
 package com.example.client.presentation.pages.profile.components
 
+import android.net.Uri
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -47,8 +49,12 @@ fun BackgroundAndAvatarHolder(
     status: Boolean,
     editableMode: Boolean,
     uiState: ProfileUiState,
+    tempAvatarUri: Uri?,
+    showAvatarCropper: Boolean,
     onBgChange: () -> Unit = {},
-    onAvatarChange: () -> Unit = {}
+    onAvatarChange: () -> Unit = {},
+    onUpdateAvatar: (Uri, Float, Offset) -> Unit,
+    onDismissAvatarCropper: () -> Unit = {}
 ) {
     val context = LocalContext.current
 
@@ -144,6 +150,13 @@ fun BackgroundAndAvatarHolder(
                     .padding(top = 12.dp, bottom = 4.dp)
             )
         }
+    }
+    if (showAvatarCropper && tempAvatarUri != null) {
+        ImageCropperDialog(
+            imageUri = tempAvatarUri,
+            onDismiss = { onDismissAvatarCropper() },
+            onCropComplete = onUpdateAvatar
+        )
     }
 }
 
