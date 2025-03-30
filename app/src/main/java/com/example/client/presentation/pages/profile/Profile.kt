@@ -13,17 +13,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.client.R
 import com.example.client.presentation.common.CommonTopBar
 import com.example.client.presentation.common.CustomOutlineTextField
 import com.example.client.presentation.common.DatePickerFieldToModal
@@ -37,6 +38,9 @@ import com.example.client.ui.theme.ClientTheme
 fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: NavController) {
     val uiState = viewModel.uiState.collectAsState().value
 
+    var tempAvatarUri by remember { mutableStateOf<Uri?>(null) }
+
+    // Image picker
     val backgroundPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
@@ -45,9 +49,11 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
     val avatarPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        viewModel.updateAvatarImage(uri);
+        tempAvatarUri = uri
+        viewModel.updateShowAvatarCropper()
     }
 
+    // Requester
     val dobRequester = FocusRequester()
     val emailRequester = FocusRequester()
     val targetRequester = FocusRequester()
@@ -71,18 +77,19 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
                 horizontalAlignment = Alignment.Start
             ) {
                 BackgroundAndAvatarHolder(
-                    backgroundImage = uiState.backgroundImage,
-                    avatarImage = painterResource(R.drawable.avatar),
                     showName = "Nguyễn Phạm Diễm Quỳnh",
-                    status = uiState.userStatus,
-                    editableMode = uiState.editableMode,
                     uiState = uiState,
+                    tempAvatarUri = tempAvatarUri,
                     onBgChange = {
                         backgroundPickerLauncher.launch("image/*")
                     },
                     onAvatarChange = {
                         avatarPickerLauncher.launch("image/*")
-                    }
+                    },
+                    onUpdateAvatar = { uri, scale, offset ->
+                        viewModel.updateAvatarImage2(uri, scale, offset)
+                    },
+                    onDismissAvatarCropper = { viewModel.updateShowAvatarCropper() }
                 )
                 Spacer(modifier = Modifier.height(140.dp))
                 Column(
@@ -109,7 +116,7 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
                         currentTextFieldRequester = emailRequester,
                         nextTextFieldRequester = targetRequester,
                         editableMode = uiState.editableMode,
-                        onValueChange = {viewModel.updateEmail(it)})
+                        onValueChange = { viewModel.updateEmail(it) })
                     Spacer(modifier = Modifier.height(12.dp))
                     CustomOutlineTextField(
                         value = uiState.targetTextField,
@@ -118,7 +125,7 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
                         textFieldType = TextFieldType.ProfileTextFieldTarget.type,
                         currentTextFieldRequester = targetRequester,
                         editableMode = uiState.editableMode,
-                        onValueChange = {viewModel.updateTarget(it)})
+                        onValueChange = { viewModel.updateTarget(it) })
                 }
             }
         }

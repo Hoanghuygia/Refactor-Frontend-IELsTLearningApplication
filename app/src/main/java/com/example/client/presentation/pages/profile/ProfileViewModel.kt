@@ -1,6 +1,8 @@
 package com.example.client.presentation.pages.profile
 
 import android.net.Uri
+import android.util.Log
+import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,5 +56,31 @@ class ProfileViewModel @Inject constructor(): ViewModel() {
         _uiState.update { currentState ->
             currentState.copy(bgUri = uri)
         }
+    }
+//
+//    fun updateShowAvatarCropper(){
+//        _uiState.update { currentState ->
+//            Log.d("updateShowAvatarCropper", "New state: $newState")
+//            currentState.copy(showAvatarCropper = !currentState.showAvatarCropper)
+//        }
+//    }
+
+    fun updateShowAvatarCropper(){
+        _uiState.update { currentState ->
+            val newState = !currentState.showAvatarCropper
+            Log.d("updateShowAvatarCropper", "New state: $newState")
+            currentState.copy(showAvatarCropper = newState)
+        }
+    }
+
+    fun updateAvatarImage2(uri: Uri, scale: Float = 1f, offset: Offset = Offset.Zero) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                avatarUri = uri,
+                avatarScale = scale,
+                avatarOffset = offset
+            )
+        }
+        updateShowAvatarCropper()
     }
 }
