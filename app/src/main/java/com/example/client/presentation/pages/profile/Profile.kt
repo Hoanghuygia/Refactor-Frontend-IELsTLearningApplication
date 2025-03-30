@@ -1,5 +1,8 @@
 package com.example.client.presentation.pages.profile
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,6 +36,17 @@ import com.example.client.ui.theme.ClientTheme
 @Composable
 fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: NavController) {
     val uiState = viewModel.uiState.collectAsState().value
+
+    val backgroundPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        viewModel.updateBackgroundImage(uri);
+    }
+    val avatarPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        viewModel.updateAvatarImage(uri);
+    }
 
     val dobRequester = FocusRequester()
     val emailRequester = FocusRequester()
@@ -56,11 +71,18 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel(), navController: 
                 horizontalAlignment = Alignment.Start
             ) {
                 BackgroundAndAvatarHolder(
-                    backgroundImage = R.drawable.bg,
+                    backgroundImage = uiState.backgroundImage,
                     avatarImage = painterResource(R.drawable.avatar),
                     showName = "Nguyễn Phạm Diễm Quỳnh",
                     status = uiState.userStatus,
-                    editableMode = uiState.editableMode
+                    editableMode = uiState.editableMode,
+                    uiState = uiState,
+                    onBgChange = {
+                        backgroundPickerLauncher.launch("image/*")
+                    },
+                    onAvatarChange = {
+                        avatarPickerLauncher.launch("image/*")
+                    }
                 )
                 Spacer(modifier = Modifier.height(140.dp))
                 Column(

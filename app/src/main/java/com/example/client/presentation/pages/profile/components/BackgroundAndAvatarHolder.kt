@@ -28,11 +28,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.example.client.R
+import com.example.client.presentation.pages.profile.ProfileUiState
 import com.example.client.ui.theme.ClientTheme
 
 @Composable
@@ -41,21 +45,49 @@ fun BackgroundAndAvatarHolder(
     avatarImage: Painter,
     showName: String,
     status: Boolean,
-    editableMode: Boolean
+    editableMode: Boolean,
+    uiState: ProfileUiState,
+    onBgChange: () -> Unit = {},
+    onAvatarChange: () -> Unit = {}
 ) {
+    val context = LocalContext.current
+
+    val backgroundPainter = if(uiState.bgUri != null){
+        rememberAsyncImagePainter(
+            model = ImageRequest.Builder(context)
+                .data(uiState.bgUri)
+                .build()
+        )
+    }
+    else{
+        painterResource(id = uiState.backgroundImage)
+    }
+
+    val avatarPainter = if(uiState.avatarUri != null){
+        rememberAsyncImagePainter(
+            model = ImageRequest.Builder(context)
+                .data(uiState.avatarUri)
+                .build()
+        )
+    }
+    else{
+        painterResource(id = uiState.avatarImage)
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(LocalConfiguration.current.screenHeightDp.dp / 4)
     ) {
         Image(
-            painter = painterResource(id = backgroundImage),
+//            painter = painterResource(id = backgroundImage),
+            painter = backgroundPainter,
             contentDescription = "Profile Background",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxWidth()
         )
         if (editableMode) {
-            IconButton(onClick = {}, modifier = Modifier.align(Alignment.BottomEnd)) {
+            IconButton(onClick = { onBgChange() }, modifier = Modifier.align(Alignment.BottomEnd)) {
                 Icon(
                     Icons.Default.CameraAlt,
                     contentDescription = "Change Background",
@@ -74,7 +106,8 @@ fun BackgroundAndAvatarHolder(
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(
-                    painter = avatarImage,
+//                    painter = avatarImage,
+                    painter = avatarPainter,
                     contentScale = ContentScale.Crop,
                     contentDescription = "Avatar Profile",
                     modifier = Modifier
@@ -84,7 +117,10 @@ fun BackgroundAndAvatarHolder(
                 )
 
                 if (editableMode) {
-                    IconButton(onClick = {}, modifier = Modifier.align(Alignment.BottomEnd)) {
+                    IconButton(
+                        onClick = { onAvatarChange() },
+                        modifier = Modifier.align(Alignment.BottomEnd)
+                    ) {
                         Icon(
                             Icons.Default.CameraAlt,
                             contentDescription = "Change Avatar",
@@ -111,19 +147,19 @@ fun BackgroundAndAvatarHolder(
     }
 }
 
-@Preview(showBackground = true, widthDp = 411, heightDp = 892)
-@Composable
-fun PreviewBackgroundAndAvatarHolder() {
-    ClientTheme {
-        BackgroundAndAvatarHolder(
-            backgroundImage = R.drawable.bg,
-            avatarImage = painterResource(R.drawable.avatar),
-            showName = "Nguyen Pham Diem Quynh",
-            status = true,
-            editableMode = true
-        )
-    }
-}
+//@Preview(showBackground = true, widthDp = 411, heightDp = 892)
+//@Composable
+//fun PreviewBackgroundAndAvatarHolder() {
+//    ClientTheme {
+//        BackgroundAndAvatarHolder(
+//            backgroundImage = R.drawable.bg,
+//            avatarImage = painterResource(R.drawable.avatar),
+//            showName = "Nguyen Pham Diem Quynh",
+//            status = true,
+//            editableMode = true
+//        )
+//    }
+//}
 
 
 

@@ -106,6 +106,9 @@ dependencies {
 
     // Serialization-JSON
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+
+    // Coil for load image
+    implementation ("io.coil-kt:coil-compose:2.4.0")
 }
 
 kapt {
