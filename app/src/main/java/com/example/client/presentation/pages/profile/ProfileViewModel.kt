@@ -1,5 +1,6 @@
 package com.example.client.presentation.pages.profile
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +41,18 @@ class ProfileViewModel @Inject constructor(): ViewModel() {
     fun updateTarget(target: String){
         _uiState.update { currentState ->
             currentState.copy(targetTextField = target)
+        }
+    }
+
+    fun updateAvatarImage(uri: Uri?){
+        _uiState.update { currentState ->
+            currentState.copy(avatarUri = uri)
+        }
+    }
+
+    fun updateBackgroundImage(uri: Uri?){
+        _uiState.update { currentState ->
+            currentState.copy(bgUri = uri)
         }
     }
 }
