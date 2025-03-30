@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -120,6 +121,12 @@ fun BackgroundAndAvatarHolder(
                         .fillMaxSize()
                         .clip(CircleShape)
                         .border(2.dp, Color.White, CircleShape)
+                        .graphicsLayer(
+                            scaleX = uiState.avatarScale,
+                            scaleY = uiState.avatarScale,
+                            translationX = uiState.avatarOffset.x,
+                            translationY = uiState.avatarOffset.y
+                        )
                 )
 
                 if (editableMode) {

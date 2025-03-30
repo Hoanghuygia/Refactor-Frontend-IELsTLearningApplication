@@ -1,6 +1,7 @@
 package com.example.client.presentation.pages.profile.components
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
@@ -124,6 +125,8 @@ fun ImageCropperDialog(
                     Button(
                         onClick = {
                             if (imageUri != null) {
+                                Log.d("scale ", scale.toString())
+                                Log.d("offset ", offset.toString())
                                 onCropComplete(imageUri, scale, offset)
                             }
                         },
