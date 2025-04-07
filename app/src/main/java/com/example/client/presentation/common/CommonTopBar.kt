@@ -113,7 +113,7 @@ fun CommonTopBar(
             } else if (type == TopBarType.ProfileTopBar.type) {
                 Text(text = TopBarType.ProfileTopBar.textContent ?: "")
             } else if(type == TopBarType.NotificationTopBar.type){
-
+                Text(text = TopBarType.NotificationTopBar.textContent ?: "")
             }
         },
         actions = {
