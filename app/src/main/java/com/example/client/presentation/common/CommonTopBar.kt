@@ -112,8 +112,10 @@ fun CommonTopBar(
                 Text(text = TopBarType.AIChatTopBar.textContent ?: "")
             } else if (type == TopBarType.ProfileTopBar.type) {
                 Text(text = TopBarType.ProfileTopBar.textContent ?: "")
-            } else if(type == TopBarType.NotificationTopBar.type){
+            } else if (type == TopBarType.NotificationTopBar.type) {
                 Text(text = TopBarType.NotificationTopBar.textContent ?: "")
+            } else if (type == TopBarType.SettingTopBar.type) {
+                Text(text = TopBarType.SettingTopBar.textContent ?: "")
             }
         },
         actions = {
@@ -152,8 +154,7 @@ fun CommonTopBar(
 //                    )
 //                }
                 ChatsMenu()
-            }
-            else if (type == TopBarType.NotificationTopBar.type){
+            } else if (type == TopBarType.NotificationTopBar.type) {
                 IconButton(onClick = {}) {
                     Icon(
                         Icons.Default.Search,
@@ -173,6 +174,7 @@ sealed class TopBarType(val type: String, val textContent: String? = null) {
     object AIChatTopBar : TopBarType(type = "AiChat", textContent = "AI Chatbot")
     object ProfileTopBar : TopBarType(type = "Profile", textContent = "Account")
     object NotificationTopBar : TopBarType(type = "Notification", textContent = "Notifications")
+    object SettingTopBar : TopBarType(type = "Setting", textContent = "Setting")
 }
 
 @Preview(showBackground = true, widthDp = 411, heightDp = 892)
