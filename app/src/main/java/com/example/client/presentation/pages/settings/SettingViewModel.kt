@@ -18,4 +18,13 @@ class SettingViewModel @Inject constructor(): ViewModel(){
             currentState.copy(settingFunctions = SettingScreenData.functions)
         }
     }
+
+    fun updateToggleState(index: Int){
+        _uiState.update { currentState ->
+            val newFunctions = currentState.settingFunctions.toMutableList().apply {
+                this[index] = this[index].copy(toggleOn = !this[index].toggleOn)
+            }
+            currentState.copy(settingFunctions = newFunctions)
+        }
+    }
 }
